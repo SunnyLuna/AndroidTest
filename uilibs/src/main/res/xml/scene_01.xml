@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <!--constraintSetStart 和 constraintSetEnd 指运动的起点和终点-->
+    <!--duration 指定完成运动所需的毫秒数。-->
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@+id/start"
+        motion:duration="1000">
+        <!--<OnSwipe> 可让您通过轻触控制运动。-->
+        <!--motion:touchAnchorId 指的是您可以滑动并拖动的视图。-->
+        <!--motion:dragDirection 表示拖动的进度方向
+        例如，motion:dragDirection="dragRight" 表示当您向右拖动时，进度会增加。-->
+        <OnSwipe
+            motion:dragDirection="dragRight"
+            motion:touchAnchorId="@+id/button"
+            motion:touchAnchorSide="right" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent">
+            <!-- motion:attributeName 是必需属性，并且必须与具有 getter 和 setter 方法的对象匹配。
+             getter 和 setter 与特定模式非常匹配。
+             例如，backgroundColor 受支持，因为我们的视图具有基本的
+             getBackgroundColor() 和 setBackgroundColor() 方法。-->
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/colorBlack" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="8dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent">
+            <CustomAttribute
+                motion:attributeName="backgroundColor"
+                motion:customColorValue="@color/colorWhite" />
+        </Constraint>
+    </ConstraintSet>
+
+</MotionScene>

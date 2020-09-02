@@ -1,0 +1,4 @@
+include ':uilibs'
+include ':commonlibs'
+include ':app'
+rootProject.name = "AndroidTest"

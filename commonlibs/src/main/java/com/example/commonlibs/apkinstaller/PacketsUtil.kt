@@ -1,6 +1,6 @@
 package com.example.commonlibs.apkinstaller
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
@@ -57,7 +57,7 @@ object PacketsUtil {
             Toast.makeText(mContext, "手机未安装该应用", Toast.LENGTH_SHORT).show()
     }
 
-    fun getVersion(activity: Activity): Int {
+    fun getVersion(activity: AppCompatActivity): Int {
         val pkg: PackageInfo
         var versionCode = 0
         val versionName = ""

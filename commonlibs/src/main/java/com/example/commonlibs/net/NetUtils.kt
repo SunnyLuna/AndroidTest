@@ -1,11 +1,10 @@
 package com.example.commonlibs.net
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import com.example.commonlibs.BaseApplication
 
 
@@ -90,7 +89,7 @@ object NetUtils {
     /**
      * 打开网络设置界面
      */
-    fun openSetting(activity: Activity) {
+    fun openSetting(activity: AppCompatActivity) {
         val intent = Intent("/")
         val cm = ComponentName("com.android.settings",
                 "com.android.settings.WirelessSettings")

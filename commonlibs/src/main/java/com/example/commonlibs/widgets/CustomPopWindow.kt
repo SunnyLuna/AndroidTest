@@ -1,6 +1,6 @@
 package com.example.commonlibs.widgets
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -103,7 +103,7 @@ class CustomPopWindow(context: Context) {
             mContentView = LayoutInflater.from(mContext).inflate(mReslayoutId, null)
         }
         //获取当前activity的窗口
-        val activity = mContentView!!.context as Activity
+        val activity = mContentView!!.context as AppCompatActivity
         if (mIsBackgroundDark) {
             mWindow = activity.window
             val params = mWindow!!.attributes

@@ -5,11 +5,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 
 import com.example.commonlibs.BaseApplication;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * TTS语音播报
@@ -25,7 +28,7 @@ public class TTSUtils {
     private static boolean bSwitch = true;
     private static final String TAG = "----TTSUtils";
 
-    public static void config(boolean b) {
+    public void config(boolean b) {
         bSwitch = b;
     }
 
@@ -44,7 +47,7 @@ public class TTSUtils {
     }
 
 
-    public java.util.List<TextToSpeech.EngineInfo> getEngines() {
+    public List<TextToSpeech.EngineInfo> getEngines() {
         return textToSpeech.getEngines();
     }
 
@@ -54,6 +57,9 @@ public class TTSUtils {
     }
 
     public int speak(String text) {
+        if (textToSpeech.isSpeaking()) {
+            textToSpeech.stop();
+        }
         if (bSwitch) {
             return textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null);
         }
@@ -72,11 +78,11 @@ public class TTSUtils {
             //生成默认引擎的speech
             textToSpeech = new TextToSpeech(context, status -> {
                 if (status == TextToSpeech.SUCCESS) {
-                    int result = textToSpeech.setLanguage(java.util.Locale.CHINA);
+                    int result = textToSpeech.setLanguage(Locale.CHINA);
                     if (result != TextToSpeech.LANG_COUNTRY_AVAILABLE
                             && result != TextToSpeech.LANG_AVAILABLE) {
 //                        LogUtils.logger.trace("当前引擎不支持中文朗读");
-                        android.util.Log.d(TAG, "createTTSCHINA: 当前引擎不支持中文朗读");
+                        Log.d(TAG, "createTTSCHINA: 当前引擎不支持中文朗读");
                     }
                 }
 
@@ -88,11 +94,11 @@ public class TTSUtils {
             textToSpeech = new TextToSpeech(context, status -> {
 
                 if (status == TextToSpeech.SUCCESS) {
-                    int result = textToSpeech.setLanguage(java.util.Locale.CHINA);
+                    int result = textToSpeech.setLanguage(Locale.CHINA);
                     if (result != TextToSpeech.LANG_COUNTRY_AVAILABLE
                             && result != TextToSpeech.LANG_AVAILABLE) {
 //                        LogUtils.logger.trace("当前引擎不支持中文朗读");
-                        android.util.Log.d(TAG, "createTTSCHINA: ");
+                        Log.d(TAG, "createTTSCHINA: ");
                     }
                 }
 
@@ -121,7 +127,7 @@ public class TTSUtils {
             StringBuffer hexString = new StringBuffer();
             for (int i = 0; i < publicKey.length; i++) {
                 String appendString = Integer.toHexString(0xFF & publicKey[i])
-                        .toUpperCase(java.util.Locale.US);
+                        .toUpperCase(Locale.US);
                 if (appendString.length() == 1)
                     hexString.append("0");
                 hexString.append(appendString);
@@ -145,8 +151,9 @@ public class TTSUtils {
             return;
         }
         int streamMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC); //最大音量  a7s为15
-        android.util.Log.d(TAG, "setVol: " + streamMaxVolume);
+        Log.d(TAG, "setVol: " + streamMaxVolume);
         int currentVoice = streamMaxVolume * vol / 10;//音量为10个单位
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVoice, 0);
     }
+
 }

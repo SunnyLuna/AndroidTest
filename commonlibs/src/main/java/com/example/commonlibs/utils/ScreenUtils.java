@@ -1,11 +1,12 @@
 package com.example.commonlibs.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * 获取屏幕宽高等信息、全屏切换、保持屏幕常亮、截屏等
@@ -49,7 +50,7 @@ public final class ScreenUtils {
         return isFullScreen;
     }
 
-    public static void toggleFullScreen(Activity activity) {
+    public static void toggleFullScreen(AppCompatActivity activity) {
         Window window = activity.getWindow();
         int flagFullscreen = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         if (isFullScreen) {
@@ -64,7 +65,7 @@ public final class ScreenUtils {
     /**
      * 保持屏幕常亮
      */
-    public static void keepBright(Activity activity) {
+    public static void keepBright(AppCompatActivity activity) {
         //需在setContentView前调用
         int keepScreenOn = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         activity.getWindow().setFlags(keepScreenOn, keepScreenOn);

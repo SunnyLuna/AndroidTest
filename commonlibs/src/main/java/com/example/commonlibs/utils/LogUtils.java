@@ -19,7 +19,9 @@ import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.StatusPrinter;
 
 /**
- * Created by hizha on 2018/3/29.
+ *
+ * @author ZJ
+ * created at 2020/9/25 9:39
  */
 
 public class LogUtils {

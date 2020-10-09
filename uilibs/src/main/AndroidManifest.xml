@@ -2,14 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.decard.uilibs">
 
-    <application android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ConstraintLayoutActivity">
+    <application
+        android:icon="@mipmap/my_launcher"
+        android:roundIcon="@mipmap/my_launcher_round"
+        android:theme="@style/MyTheme">
+        <activity android:name=".PickerViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".password.PasswordActivity">
+
+        </activity>
+        <activity android:name=".ThumbSeekBarActivity"></activity>
+        <activity android:name=".DownloadProgressButtonActivity" />
+        <activity android:name=".spinner.SpinnerActivity" />
+        <activity android:name=".md.LunaStyleActivity" />
+        <activity android:name=".ConstraintLayoutActivity" />
     </application>
 
 </manifest>

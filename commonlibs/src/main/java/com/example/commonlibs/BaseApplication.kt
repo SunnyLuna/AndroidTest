@@ -1,6 +1,6 @@
 package com.example.commonlibs
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.app.Application
 
 
@@ -11,7 +11,7 @@ import android.app.Application
  */
 open class BaseApplication : Application() {
 
-    lateinit var activityList: MutableList<Activity>
+    lateinit var activityList: MutableList<AppCompatActivity>
 
     override fun onCreate() {
         super.onCreate()
@@ -26,13 +26,13 @@ open class BaseApplication : Application() {
     }
 
 
-    open fun addActivity(activity: Activity?) {
+    open fun addActivity(activity: AppCompatActivity?) {
         if (!activityList.contains(activity)) {
             activityList.add(activity!!)
         }
     }
 
-    open fun removeActivity(activity: Activity) {
+    open fun removeActivity(activity: AppCompatActivity) {
         if (activityList.contains(activity)) {
             activityList.remove(activity)
             activity.finish()

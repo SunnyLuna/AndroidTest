@@ -1,1 +1,10 @@
-<resources></resources>
+<resources>
+    <array name="grade">
+        <item>一年级</item>
+        <item>二年级</item>
+        <item>三年级</item>
+        <item>四年级</item>
+        <item>五年级</item>
+        <item>六年级</item>
+    </array>
+</resources>

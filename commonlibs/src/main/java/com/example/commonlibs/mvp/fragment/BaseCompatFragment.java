@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -21,12 +23,12 @@ public abstract class   BaseCompatFragment extends SupportFragment {
 
     protected String TAG;
     protected Context mContext;
-    protected Activity mActivity;
+    protected AppCompatActivity mActivity;
 
 
     @Override
     public void onAttach(Context context) {
-        mActivity = (Activity) context;
+        mActivity = (AppCompatActivity) context;
         mContext = context;
         super.onAttach(context);
     }

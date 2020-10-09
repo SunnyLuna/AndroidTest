@@ -266,6 +266,27 @@ public class DateUtils {
         return 0;
     }
 
+    public static String dateFormat(String date) {
+        SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat sdfDaily = new SimpleDateFormat("yyyy年MM月dd日");
+        SimpleDateFormat sdfMonthly = new SimpleDateFormat("yyyy年MM月");
+
+        try {
+            Date date1 = sdfDay.parse(date);
+            return sdfDaily.format(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            try {
+                Date date1 = sdfMonth.parse(date);
+                return sdfMonthly.format(date1);
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return "";
+    }
+
     /**
      * 获取当前时间  年月日 时分秒
      *

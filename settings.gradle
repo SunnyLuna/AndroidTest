@@ -1,3 +1,5 @@
+include ':mqttlibs'
+include ':otglibs'
 include ':uilibs'
 include ':commonlibs'
 include ':app'

@@ -1,6 +1,6 @@
 package com.example.commonlibs.camera
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.graphics.*
 import android.hardware.Camera
@@ -97,7 +97,7 @@ class CustomSurfaceVeiw {
     private fun setCameraDisplayOrientation() {
         val info = Camera.CameraInfo()
         Camera.getCameraInfo(0, info)
-        val rotation = (mContext as Activity).windowManager.defaultDisplay.rotation
+        val rotation = (mContext as AppCompatActivity).windowManager.defaultDisplay.rotation
 
         var screenDegree = 0
         when (rotation) {

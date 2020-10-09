@@ -8,7 +8,11 @@ import android.util.Base64
 import android.util.Log
 import java.io.*
 import java.util.ArrayList
-
+/**
+ *
+ * @author ZJ
+ * created at 2020/9/25 9:42
+ */
 object FileUtils {
 
     private val TAG = "------FileUtils"

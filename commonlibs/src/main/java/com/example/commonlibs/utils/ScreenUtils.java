@@ -85,7 +85,12 @@ public final class ScreenUtils {
         return false;
     }
 
-
+    /**
+     * 获取最小宽高比，用于做屏幕适配
+     *
+     * @author ZJ
+     * created at 2020/11/16 14:41
+     */
     public static double getSmallestWidthDP(Context context) {
         DisplayMetrics dm = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) context

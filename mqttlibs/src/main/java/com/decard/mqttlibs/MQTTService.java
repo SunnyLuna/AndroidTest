@@ -18,29 +18,28 @@ import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import io.reactivex.disposables.Disposable;
 
 public class MQTTService extends Service {
 
     private static final String TAG = "---MQTTService";
 
-    private static MqttAndroidClient client;
-    private MqttConnectOptions conOpt;
-
-        private String host = "tcp://192.168.1.86";
-//        private String host = "tcp://192.168.7.110:1883";
-//    private String host = "tcp://192.168.7.110:61613";
-//    private String host = "tcp://47.93.180.222";
+    private static MqttAndroidClient mMqttClient;
+    private MqttConnectOptions mqttConnectOptions;
+    private String host = "tcp://192.168.1.138";
     private static String myTopic = "sunnyLuna";  //要订阅的主题
-    private String clientId = "vir";      //客户端标识
+    private static String topic = "TEST";  //要订阅的主题
+    private String clientId = "12345";      //客户端标识
     private String userName = "admin";
     private String passWord = "password";
 
-    private IGetMessageCallBack IGetMessageCallBack;
-
+    private MessageCallback messageCallback;
+    Disposable subscribe;
 
     @Override
     public void onCreate() {
@@ -49,112 +48,78 @@ public class MQTTService extends Service {
         init();
     }
 
-
     private void init() {
         // 服务器地址（协议+地址+端口号）
-        client = new MqttAndroidClient(this, host, clientId);
+        mMqttClient = new MqttAndroidClient(this, host, clientId);
         // 设置MQTT监听并且接受消息
-        client.setCallback(mqttCallback);
+        mMqttClient.setCallback(mqttCallback);
 
-        conOpt = new MqttConnectOptions();
+        mqttConnectOptions = new MqttConnectOptions();
         // 清除缓存
-        conOpt.setCleanSession(true);
+        mqttConnectOptions.setCleanSession(true);
         // 设置超时时间，单位：秒
-        conOpt.setConnectionTimeout(10);
+        mqttConnectOptions.setConnectionTimeout(10);
         // 心跳包发送间隔，单位：秒
-        conOpt.setKeepAliveInterval(20);
+        mqttConnectOptions.setKeepAliveInterval(20);
+//        mqttConnectOptions.setAutomaticReconnect(true);
         // 用户名
-        conOpt.setUserName(userName);
+        mqttConnectOptions.setUserName(userName);
         // 密码
-        conOpt.setPassword(passWord.toCharArray());     //将字符串转换为字符串数组
+        mqttConnectOptions.setPassword(passWord.toCharArray());     //将字符串转换为字符串数组
         // last will message
-        boolean doConnect = true;
-        String message = "{\"terminal_uid\":\"" + clientId + "\"}";
-        Log.e(getClass().getName(), "message是:" + message);
-
-        // 最后的遗嘱
-        // MQTT本身就是为信号不稳定的网络设计的，所以难免一些客户端会无故的和Broker断开连接。
-        //当客户端连接到Broker时，可以指定LWT，Broker会定期检测客户端是否有异常。
-        //当客户端异常掉线时，Broker就往连接时指定的topic里推送当时指定的LWT消息。
-
-        try {
-            conOpt.setWill(myTopic, message.getBytes(), 0, false);
-        } catch (Exception e) {
-            Log.i(TAG, "Exception Occured", e);
-            doConnect = false;
-            iMqttActionListener.onFailure(null, e);
-        }
-        if (doConnect) {
+//        boolean doConnect = true;
+//        String message = "{\"terminal_uid\":\"" + clientId + "\"}";
+//        Log.e(TAG, "message是:" + message);
+//        // 最后的遗嘱
+//        // MQTT本身就是为信号不稳定的网络设计的，所以难免一些客户端会无故的和Broker断开连接。
+//        //当客户端连接到Broker时，可以指定LWT，Broker会定期检测客户端是否有异常。
+//        //当客户端异常掉线时，Broker就往连接时指定的topic里推送当时指定的LWT消息。
+//        try {
+//            mqttConnectOptions.setWill(myTopic, message.getBytes(), 0, false);
+//        } catch (Exception e) {
+//            Log.d(TAG, "Exception in setWill: " + e);
+//            doConnect = false;
+//            iMqttActionListener.onFailure(null, e);
+//        }
+//        if (doConnect) {
             doClientConnection();
-        }
-
-    }
-
-    /**
-     * 发布推送消息
-     *
-     * @param msg 发布的内容
-     */
-    public static void publish(String msg) {
-        try {
-            if (client != null) {
-                client.publish(myTopic, msg.getBytes(), 0, false);
-            }
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
+//        }
     }
 
 
     /**
-     * 连接MQTT服务器
+     * 监听MQTT的状态，并接收订阅的消息
      */
-    private void doClientConnection() {
-        if (!client.isConnected() && isConnectIsNormal()) {
+    private MqttCallbackExtended mqttCallback = new MqttCallbackExtended() {
+
+        @Override
+        public void connectComplete(boolean reconnect, String serverURI) {
+            Log.d(TAG, "connectComplete: 是否重连" + reconnect);
+            Log.d(TAG, "connectComplete: 是否连接" + mMqttClient.isConnected());
+
             try {
-                client.connect(conOpt, null, iMqttActionListener);
+                if (reconnect) {
+//                    String[] topics = new String[]{myTopic, topic};
+//                    int[] qos = new int[]{1, 1};
+//                    mMqttClient.subscribe(topics, qos);
+                    mMqttClient.subscribe(myTopic, 1);
+                }
             } catch (MqttException e) {
-                Log.d(TAG, "doClientConnection: " + e.getMessage());
+                Log.d(TAG, "connectComplete: " + e.getMessage());
                 e.printStackTrace();
             }
         }
-    }
-
-    // MQTT是否连接成功
-    private IMqttActionListener iMqttActionListener = new IMqttActionListener() {
-
-        @Override
-        public void onSuccess(IMqttToken arg0) {
-            Log.i(TAG, "连接成功 ");
-            try {
-                // 订阅myTopic话题
-                client.subscribe(myTopic, 1);
-            } catch (MqttException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onFailure(IMqttToken arg0, Throwable arg1) {
-            Log.d(TAG, "onFailure: 连接失败：" + arg1.getMessage());
-            arg1.printStackTrace();
-            // 连接失败，重连
-        }
-    };
-
-    // MQTT监听并且接受消息
-    private MqttCallback mqttCallback = new MqttCallback() {
 
         @Override
         public void messageArrived(String topic, MqttMessage message) throws Exception {
-
             String str1 = new String(message.getPayload());
-            if (IGetMessageCallBack != null) {
-                IGetMessageCallBack.setMessage(str1);
+            Log.d(TAG, "messageArrived: 主题：" + topic + "  内容：" + str1);
+            if (messageCallback != null) {
+                messageCallback.setMessage(str1);
             }
             String str2 = topic + ";qos:" + message.getQos() + ";retained:" + message.isRetained();
-            Log.i(TAG, "messageArrived:" + str1);
-            Log.i(TAG, str2);
+            Log.d(TAG, "messageArrived:" + str1);
+            Log.d(TAG, str2);
         }
 
         @Override
@@ -164,25 +129,95 @@ public class MQTTService extends Service {
 
         @Override
         public void connectionLost(Throwable arg0) {
+            Log.d(TAG, "connectionLost: 连接断开");
             // 失去连接，重连
-            Log.d(TAG, "connectionLost: ");
+            if (arg0 != null) {
+                Log.d(TAG, "connectionLost: " + arg0.getMessage());
+                doClientConnection();
+            }
         }
     };
 
     /**
-     * 判断网络是否连接
+     * 连接MQTT服务器
      */
-    private boolean isConnectIsNormal() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) this.getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info != null && info.isAvailable()) {
-            String name = info.getTypeName();
-            Log.i(TAG, "MQTT当前网络名称：" + name);
-            return true;
-        } else {
-            Log.i(TAG, "MQTT 没有可用网络");
-            return false;
+    private void doClientConnection() {
+        Log.d(TAG, "doClientConnection: mq服务是否连接" + mMqttClient.isConnected());
+        if (!mMqttClient.isConnected()) {
+            try {
+                mMqttClient.connect(mqttConnectOptions, null, iMqttActionListener);
+            } catch (MqttException e) {
+                Log.d(TAG, "doClientConnection: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+//        subscribe = Observable.interval(0, 5, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+//            @Override
+//            public void accept(Long aLong) throws Exception {
+//                if (!mMqttClient.isConnected() && isConnectIsNormal()) {
+//                    try {
+//                        mMqttClient.connect(mqttConnectOptions, null, iMqttActionListener);
+//                    } catch (MqttException e) {
+//                        Log.d(TAG, "doClientConnection: " + e.getMessage());
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+    }
+
+    /**
+     * 连接MQTT的回调
+     */
+    private IMqttActionListener iMqttActionListener = new IMqttActionListener() {
+
+        @Override
+        public void onSuccess(IMqttToken arg0) {
+            Log.d(TAG, "连接成功 ");
+            try {
+                // 订阅myTopic话题
+//                String[] topics = new String[]{myTopic, topic};
+//                int[] qos = new int[]{1, 1};
+//                mMqttClient.subscribe(topics, qos);
+                mMqttClient.subscribe(myTopic, 1);
+            } catch (MqttException e) {
+                Log.d(TAG, "onSuccess: " + e.getMessage());
+                e.printStackTrace();
+            }
+            if (subscribe != null) {
+                subscribe.dispose();
+            }
+        }
+
+        @Override
+        public void onFailure(IMqttToken arg0, Throwable arg1) {
+            Log.d(TAG, "onFailure: 连接失败：" + arg1.getMessage());
+            arg1.printStackTrace();
+            // 连接失败，重连
+            doClientConnection();
+
+        }
+    };
+
+
+    /**
+     * 发布推送消息
+     *
+     * @param msg 发布的内容
+     */
+    public static void publish(String msg) {
+        Log.d(TAG, "publish: " + msg.getBytes().length / 1024);
+        try {
+            if (mMqttClient != null) {
+                //retained  发布保留标识，表示服务器要保留这次推送的信息，如果有新的订阅者出现，
+                // 就把这消息推送给它，如果设有那么推送至当前订阅者后释放
+                mMqttClient.publish(myTopic, msg.getBytes(), 1, false);
+//                mMqttClient.publish(topic, msg.getBytes(), 1, false);
+            }
+        } catch (MqttException e) {
+            e.printStackTrace();
+            Log.d(TAG, "publish: " + e.getMessage());
         }
     }
 
@@ -193,8 +228,8 @@ public class MQTTService extends Service {
         return new CustomBinder();
     }
 
-    public void setIGetMessageCallBack(IGetMessageCallBack IGetMessageCallBack) {
-        this.IGetMessageCallBack = IGetMessageCallBack;
+    public void setIGetMessageCallBack(MessageCallback messageCallBack) {
+        this.messageCallback = messageCallBack;
     }
 
     public class CustomBinder extends Binder {
@@ -230,12 +265,18 @@ public class MQTTService extends Service {
 
     @Override
     public void onDestroy() {
-        stopSelf();
+        super.onDestroy();
         try {
-            client.disconnect();
+            Log.d(TAG, "onDestroy: ");
+            mMqttClient.unsubscribe(myTopic);
+            mMqttClient.unsubscribe(topic);
+            mMqttClient.clearAbortBroadcast();
+            mMqttClient.unregisterResources();
+            mMqttClient.close();
+            mMqttClient.disconnect();
         } catch (MqttException e) {
+            Log.d(TAG, "onDestroy: " + e.getMessage());
             e.printStackTrace();
         }
-        super.onDestroy();
     }
 }

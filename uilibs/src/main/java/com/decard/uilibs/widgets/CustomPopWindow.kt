@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit
  * created at 2019/5/7 17:52
  */
 class CustomPopWindow(context: Context) {
+
     private val TAG = "---CustomPopWindow"
     var mContext: Context = context
     private var mWidth = 0

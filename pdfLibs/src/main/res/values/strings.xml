@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AndroidTest</string>
+    <string name="order_number">订单号：</string>
+    <string name="trade_time">交易时间：</string>
+    <string name="transaction_id">交易流水号：</string>
+    <string name="constraint_name">传说中的约束布局</string>
+</resources>

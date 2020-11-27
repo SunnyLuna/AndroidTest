@@ -7,7 +7,7 @@ import android.os.IBinder;
 class MyServiceConnection  implements ServiceConnection {
 
     private MQTTService mqttService;
-    private IGetMessageCallBack IGetMessageCallBack;
+    private MessageCallback IGetMessageCallBack;
 
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -24,7 +24,7 @@ class MyServiceConnection  implements ServiceConnection {
         return mqttService;
     }
 
-    public void setIGetMessageCallBack(IGetMessageCallBack IGetMessageCallBack){
+    public void setIGetMessageCallBack(MessageCallback IGetMessageCallBack){
         this.IGetMessageCallBack = IGetMessageCallBack;
     }
 }

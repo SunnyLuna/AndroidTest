@@ -116,12 +116,10 @@ object BitmapUtils {
         // 得到图片的宽，高
         val w = bitmap.width
         val h = bitmap.height
-
         //width最大不能超过长方形的短边
         if (w < width || h < width) {
             width = if (w > h) h else w
         }
-
         val retX = (w - width) / 2
         val retY = (h - width) / 2
 

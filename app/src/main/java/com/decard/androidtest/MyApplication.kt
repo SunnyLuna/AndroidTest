@@ -1,8 +1,8 @@
 package com.decard.androidtest
 
-import android.app.Application
+import com.example.commonlibs.BaseApplication
 
-class MyApplication : Application() {
+class MyApplication : BaseApplication() {
 
     override fun onCreate() {
         super.onCreate()

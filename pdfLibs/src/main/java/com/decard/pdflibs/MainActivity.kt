@@ -132,7 +132,6 @@ class MainActivity : AppCompatActivity() {
                         y = clickY
                         Log.d(TAG, "onCreate: $x    $y")
                     }
-
                     .enableAnnotationRendering(true)// 渲染风格（就像注释，颜色或表单）
                     .load()
             }

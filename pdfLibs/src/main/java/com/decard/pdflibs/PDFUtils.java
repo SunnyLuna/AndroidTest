@@ -33,14 +33,25 @@ public class PDFUtils {
 
 	private static final String TAG = "----PDFUtils";
 
+
+	/**
+	 * 根据坐标指哪签哪
+	 *
+	 * @param img     签名图片
+	 * @param pageNum 签名页数
+	 * @param offsetX 签名位于PDF的X坐标
+	 * @param offsetY 签名在PDF的Y坐标
+	 * @throws IOException
+	 * @throws DocumentException
+	 */
 	public static void addPi(final Image img, int pageNum, final float offsetX,
-                             final float offsetY) throws IOException, DocumentException {
+	                         final float offsetY) throws IOException, DocumentException {
 		String source =
 				Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
-                        "sign.pdf";
+						"sign.pdf";
 		String target =
 				Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
-                        "signed.pdf";
+						"signed.pdf";
 		if (!new File(source).exists()) {
 			Log.d(TAG, "addPi: source文件不存在");
 			return;
@@ -75,14 +86,14 @@ public class PDFUtils {
 	 * @throws IOException
 	 */
 	public static void addPi(final Image img, final String keyWord, int pageNum,
-                             final float offsetX, final float offsetY) throws IOException,
-            DocumentException {
+	                         final float offsetX, final float offsetY) throws IOException,
+			DocumentException {
 		String source =
 				Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
-                        "intelligentKit/SourceSign.pdf";
+						"intelligentKit/SourceSign.pdf";
 		String target =
 				Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
-                        "intelligentKit/Signed.pdf";
+						"intelligentKit/Signed.pdf";
 		if (!new File(source).exists()) {
 			Log.d(TAG, "addPi: source文件不存在");
 			return;
@@ -105,7 +116,7 @@ public class PDFUtils {
 				if (text != null && text.contains(keyWord)) {
 					// 文字在page中的横坐标、纵坐标
 					Rectangle2D.Float textFloat =
-                            textRenderInfo.getBaseline().getBoundingRectange();
+							textRenderInfo.getBaseline().getBoundingRectange();
 					float x = textFloat.x;
 					float y = textFloat.y;
 					Log.d(TAG, "renderText: x: " + x + "y: " + y);
@@ -195,8 +206,8 @@ public class PDFUtils {
 	 * @throws IOException
 	 */
 	public static void addSignImg(String inputPath, String targetPath, final String imagePath,
-                                  final String keyWord, Integer pageNum) throws IOException,
-            DocumentException {
+	                              final String keyWord, Integer pageNum) throws IOException,
+			DocumentException {
 		PdfReader pdfReader = new PdfReader(inputPath);
 		// 读图片
 		final Image image = Image.getInstance(imagePath);
@@ -216,7 +227,7 @@ public class PDFUtils {
 				if (text != null && text.contains(keyWord)) {
 					// 文字在page中的横坐标、纵坐标
 					Rectangle2D.Float textFloat =
-                            textRenderInfo.getBaseline().getBoundingRectange();
+							textRenderInfo.getBaseline().getBoundingRectange();
 					float x = textFloat.x;
 					float y = textFloat.y;
 					// 设置图片位置

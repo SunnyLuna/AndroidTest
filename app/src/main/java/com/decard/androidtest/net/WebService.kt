@@ -18,6 +18,15 @@ import retrofit2.http.*
 import java.io.File
 import java.util.concurrent.TimeUnit
 
+/**
+ * 网络操作类
+ * @author ZJ
+ * created at 2020/12/10 11:51
+ *
+ *   //@Headers和@Header的区别
+ *@Headers用于添加固定请求头，可以同时添加多个，通过该注解添加的请求头不会相互覆盖，而是共同存在。
+ *@Header 作为方法的参数传入，用于添加不固定的请求头，该注解会更新已有的请求头
+ */
 interface WebService {
 
     @GET("/login")
@@ -28,6 +37,7 @@ interface WebService {
 
     @GET("/test")
     fun test(): Observable<Int>
+
 
     @Headers("Content-Type: application/json", "Accept: application/json") //需要添加头
     @POST("test/pad")

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transition xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:ignore="MissingDefaultResource" >
+    <item android:drawable="@drawable/ya" />
+    <item android:drawable="@drawable/y" />
+    <item android:drawable="@drawable/ya" />
+    <item android:drawable="@drawable/y" />
+    <item android:drawable="@drawable/ya" />
+    <item android:drawable="@drawable/y" />
+    <item android:drawable="@drawable/ya" />
+    <item android:drawable="@drawable/y" />
+</transition>

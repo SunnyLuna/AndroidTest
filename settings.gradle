@@ -1,3 +1,4 @@
+include ':printLibs'
 include ':android-pdf-viewer'
 include ':signaturelibs'
 include ':pdfLibs'

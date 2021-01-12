@@ -2,21 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.decard.uilibs">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:icon="@mipmap/my_launcher"
         android:roundIcon="@mipmap/my_launcher_round"
         android:theme="@style/MyTheme">
-        <activity android:name=".PickerViewActivity">
+        <activity android:name=".WebviewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".password.PasswordActivity">
+        <activity android:name=".AnimActivity">
 
         </activity>
-        <activity android:name=".ThumbSeekBarActivity"></activity>
+        <activity android:name=".GestureActivity"></activity>
+        <activity android:name=".TestViewActivity" />
+        <activity android:name=".PickerViewActivity" />
+        <activity android:name=".password.PasswordActivity" />
+        <activity android:name=".ThumbSeekBarActivity" />
         <activity android:name=".DownloadProgressButtonActivity" />
         <activity android:name=".spinner.SpinnerActivity" />
         <activity android:name=".md.LunaStyleActivity" />

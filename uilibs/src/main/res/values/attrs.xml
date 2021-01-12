@@ -18,4 +18,13 @@
             <enum name="rect" value="1" />
         </attr>
     </declare-styleable>
+
+
+    <declare-styleable name="CustomEvaluator">
+        <attr name="starNum" format="integer" />
+        <attr name="selectStar" format="integer" />
+        <attr name="radius" format="float" />
+        <attr name="selectColor" format="color" />
+        <attr name="defaultColor" format="color" />
+    </declare-styleable>
 </resources>

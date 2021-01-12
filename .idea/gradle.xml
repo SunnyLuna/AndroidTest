@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/mqttlibs" />
             <option value="$PROJECT_DIR$/otglibs" />
             <option value="$PROJECT_DIR$/pdfLibs" />
+            <option value="$PROJECT_DIR$/printLibs" />
             <option value="$PROJECT_DIR$/serverLibs" />
             <option value="$PROJECT_DIR$/signaturelibs" />
             <option value="$PROJECT_DIR$/socketlibs" />

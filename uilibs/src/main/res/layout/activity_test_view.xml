@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,31 +7,38 @@
     android:orientation="vertical"
     tools:context=".TestViewActivity">
 
-    <com.decard.uilibs.customview.CustomBall
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-<!--    <com.decard.uilibs.customview.CustomEvaluator-->
-<!--        android:id="@+id/customEvaluator"-->
-<!--        android:layout_width="@dimen/dp_150"-->
-<!--        android:layout_height="@dimen/dp_30"-->
-<!--        android:background="@color/colorAccent"-->
-<!--        app:defaultColor="@color/colorWhite"-->
-<!--        app:radius="10"-->
-<!--        app:selectColor="@color/colorBlack"-->
-<!--        app:selectStar="0"-->
-<!--        app:starNum="5" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/tv_select"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textSize="@dimen/sp_20" />-->
+    <!--    <com.decard.uilibs.customview.CustomBall-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"/>-->
 
 
-<!--        <com.decard.uilibs.customview.CustomHeart-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content" />-->
+    <ImageView
+        android:layout_width="@dimen/dp_540"
+        android:layout_height="@dimen/dp_960"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/home_ic_signed" />
+
+    <!--    <com.decard.uilibs.customview.CustomEvaluator-->
+    <!--        android:id="@+id/customEvaluator"-->
+    <!--        android:layout_width="@dimen/dp_150"-->
+    <!--        android:layout_height="@dimen/dp_30"-->
+    <!--        android:background="@color/colorAccent"-->
+    <!--        app:defaultColor="@color/colorWhite"-->
+    <!--        app:radius="10"-->
+    <!--        app:selectColor="@color/colorBlack"-->
+    <!--        app:selectStar="0"-->
+    <!--        app:starNum="5" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_select"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:textSize="@dimen/sp_20" />-->
+
+
+    <!--        <com.decard.uilibs.customview.CustomHeart-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content" />-->
     <!--    <com.decard.uilibs.utils.WIFIView-->
     <!--        android:layout_width="@dimen/dp_100"-->
     <!--        android:layout_height="@dimen/dp_100"-->

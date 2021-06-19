@@ -19,47 +19,54 @@ import java.io.File;
 @RequestMapping(path = "/test")
 public class TestController {
 
-    private static final String TAG = "----TestController";
+	private static final String TAG = "----TestController";
 
-    @PostMapping(path = "/pad", consumes = "application/json")
-    String getParam(@QueryParam(name = "param") String param) {
-        Log.d(TAG, "getParam: " + param);
-        return "{\"out\":[\"你真棒\"],\"result\":\"0000\"}";
-    }
+	@PostMapping(path = "/pad", consumes = "application/json")
+	String getParam(@QueryParam(name = "param") String param) {
+		Log.d(TAG, "getParam: " + param);
+		return "{\"out\":[\"你真棒\"],\"result\":\"0000\"}";
+	}
 
-    @GetMapping("/intelligent/getSignPDF")
-    void getPdf(HttpResponse response) {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Logan.pdf";
-        File file = new File(path);
-        if (file.exists()) {
-            Log.d(TAG, "getSignPDF: 在哩");
-            ResponseBody responseBody = new FileBody(file);
-            response.setBody(responseBody);
-        } else {
-            ResponseBody responseBody = new StringBody("{\"out\":[\"文件不存在\"],\"result\":\"-102\"}");
-            response.setBody(responseBody);
-            Log.d(TAG, "getSignPDF: 不在");
-        }
-    }
+	@GetMapping("/intelligent/getSignPDF")
+	void getPdf(HttpResponse response) {
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Logan.pdf";
+		File file = new File(path);
+		if (file.exists()) {
+			Log.d(TAG, "getSignPDF: 在哩");
+			ResponseBody responseBody = new FileBody(file);
+			response.setBody(responseBody);
+		} else {
+			ResponseBody responseBody = new StringBody("{\"out\":[\"文件不存在\"]," +
+                    "\"result\":\"-102\"}");
+			response.setBody(responseBody);
+			Log.d(TAG, "getSignPDF: 不在");
+		}
+	}
 
-    @GetMapping("/intelligent/getAV")
-    void getAV(HttpResponse response) {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "TEST.mp4";
-        File file = new File(path);
-        if (file.exists()) {
-            Log.d(TAG, "getAV: 在哩");
-            try {
-                ResponseBody responseBody = new FileBody(file);
-                response.setBody(responseBody);
-            } catch (Exception e) {
-                Log.d(TAG, "getAV: " + e.getMessage());
-                e.printStackTrace();
-            }
-        } else {
-            ResponseBody responseBody = new StringBody("{\"out\":[\"文件不存在\"],\"result\":\"-102\"}");
-            response.setBody(responseBody);
-            Log.d(TAG, "getAV: 不在");
-        }
+	@GetMapping("/intelligent/getAV")
+	void getAV(HttpResponse response) {
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "TEST.mp4";
+		File file = new File(path);
+		if (file.exists()) {
+			Log.d(TAG, "getAV: 在哩");
+			try {
+				ResponseBody responseBody = new FileBody(file);
+				response.setBody(responseBody);
+			} catch (Exception e) {
+				Log.d(TAG, "getAV: " + e.getMessage());
+				e.printStackTrace();
+			}
+		} else {
+			ResponseBody responseBody = new StringBody("{\"out\":[\"文件不存在\"]," +
+                    "\"result\":\"-102\"}");
+			response.setBody(responseBody);
+			Log.d(TAG, "getAV: 不在");
+		}
+	}
 
-    }
+	public static void main(String[] args) {
+		String s = "0000|fdfdfdf";
+		String[] result = s.split("\\|");
+		Log.d(TAG, "main: " + result[0] + result[1]);
+	}
 }

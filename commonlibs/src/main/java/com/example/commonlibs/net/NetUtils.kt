@@ -82,7 +82,7 @@ object NetUtils {
                 .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 ?: return false
 
-        return cm.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
+        return cm.activeNetworkInfo!!.type == ConnectivityManager.TYPE_WIFI
 
     }
 

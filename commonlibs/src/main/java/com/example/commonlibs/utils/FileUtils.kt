@@ -175,7 +175,7 @@ object FileUtils {
             `is`.close()
             "成功"
         } catch (e: java.lang.Exception) {
-            Log.e(TAG, e.message)
+            Log.e(TAG, e.message!!)
             "失败"
         }
     }
@@ -273,7 +273,7 @@ object FileUtils {
             } catch (e: FileNotFoundException) {
                 Log.d("TestFile", "The File doesn't not exist.")
             } catch (e: IOException) {
-                Log.d("TestFile", e.message)
+                Log.d("TestFile", e.message!!)
             }
         }
         return content
@@ -304,7 +304,7 @@ object FileUtils {
             } catch (e: FileNotFoundException) {
                 Log.d("TestFile", "The File doesn't not exist.")
             } catch (e: IOException) {
-                Log.d("TestFile", e.message)
+                Log.d("TestFile", e.message!!)
             }
         }
         return licenseList

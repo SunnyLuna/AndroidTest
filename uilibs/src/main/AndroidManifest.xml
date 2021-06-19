@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.decard.uilibs">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:icon="@mipmap/my_launcher"
-        android:roundIcon="@mipmap/my_launcher_round"
-        android:theme="@style/MyTheme">
-        <activity android:name=".WebviewActivity">
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.Design.NoActionBar"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:name">
+
+
+        <activity android:name=".md.MaterialDesignActivity">
+
+        </activity>
+        <activity android:name=".md.InfoDetailsActivity" />
+        <activity android:name=".TextColockActivity"/>
+        <activity android:name=".WebviewActivity"/>
+        <activity android:name=".AnimActivity" />
+        <activity android:name=".GestureActivity" />
+        <activity android:name=".TestViewActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AnimActivity">
-
-        </activity>
-        <activity android:name=".GestureActivity"></activity>
-        <activity android:name=".TestViewActivity" />
         <activity android:name=".PickerViewActivity" />
         <activity android:name=".password.PasswordActivity" />
         <activity android:name=".ThumbSeekBarActivity" />
         <activity android:name=".DownloadProgressButtonActivity" />
         <activity android:name=".spinner.SpinnerActivity" />
         <activity android:name=".md.LunaStyleActivity" />
-        <activity android:name=".ConstraintLayoutActivity" />
+        <activity android:name=".md.ConstraintLayoutActivity">
+
+        </activity>
     </application>
 
 </manifest>

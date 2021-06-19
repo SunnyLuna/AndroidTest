@@ -46,7 +46,7 @@ object NetUtils {
         Log.d(TAG, "isOnline: " + android.os.Build.VERSION.SDK_INT)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             val networkCapabilities: NetworkCapabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)!!
             return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
         } else {
             val runtime = Runtime.getRuntime()
@@ -124,7 +124,7 @@ object NetUtils {
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             ?: return false
 
-        return cm.activeNetworkInfo.type == ConnectivityManager.TYPE_WIFI
+        return cm.activeNetworkInfo!!.type == ConnectivityManager.TYPE_WIFI
 
     }
 

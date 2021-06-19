@@ -7,7 +7,8 @@ import android.os.Environment
 import android.util.Base64
 import android.util.Log
 import java.io.*
-import java.util.ArrayList
+import java.util.*
+
 /**
  *
  * @author ZJ
@@ -174,8 +175,8 @@ object FileUtils {
             os?.close()
             `is`.close()
             "成功"
-        } catch (e: java.lang.Exception) {
-            Log.e(TAG, e.message)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
             "失败"
         }
     }
@@ -201,8 +202,10 @@ object FileUtils {
                 }
                 if (temp.isFile) {
                     val input = FileInputStream(temp)
-                    val output = FileOutputStream(newPath + "/" +
-                            temp.name.toString())
+                    val output = FileOutputStream(
+                        newPath + "/" +
+                                temp.name.toString()
+                    )
                     val b = ByteArray(1024 * 5)
                     var len: Int
                     while (input.read(b).also { len = it } != -1) {
@@ -273,7 +276,7 @@ object FileUtils {
             } catch (e: FileNotFoundException) {
                 Log.d("TestFile", "The File doesn't not exist.")
             } catch (e: IOException) {
-                Log.d("TestFile", e.message)
+                Log.d("TestFile", e.message!!)
             }
         }
         return content
@@ -304,7 +307,7 @@ object FileUtils {
             } catch (e: FileNotFoundException) {
                 Log.d("TestFile", "The File doesn't not exist.")
             } catch (e: IOException) {
-                Log.d("TestFile", e.message)
+                Log.d("TestFile", e.message!!)
             }
         }
         return licenseList

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <data>
+
+        <variable
+            name="idCard"
+            type="com.decard.androidtest.viewmodel.IdCardViewModel" />
+
+        <variable
+            name="timer"
+            type="com.decard.androidtest.viewmodel.TimerViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_pay_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:text="@{timer.timeObservable+@string/str_second}"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_16"
+            tools:text="60秒" />
+
+        <RelativeLayout
+            android:id="@+id/rl_id_back"
+            android:layout_width="@dimen/dp_328"
+            android:layout_height="@dimen/dp_199"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_50">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/im_identity_back" />
+
+            <ImageView
+                idPicture="@{idCard.idPicture}"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_150"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:adjustViewBounds="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@{idCard.idName}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="焰灵姬" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gender"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@{idCard.idGender}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="女" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_32"
+                        android:text="@string/nation"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@{idCard.idNative}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="百越" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/born"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@{idCard.idYear}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="1990" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@string/year"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@{idCard.idMonth}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="08" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@string/month"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@{idCard.idDay}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="08" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@string/day"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/address"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/dp_140"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:lineSpacingMultiplier="1.2"
+                        android:text="@{idCard.idAddress}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="陕西省西安市雁塔区沣惠南路泰华金茂国际" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/id_number"
+                        android:textColor="#005CA9"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:layout_width="@dimen/dp_135"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:text="@{idCard.idNumber}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="610400198001121234" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_id_front"
+            android:layout_width="@dimen/dp_328"
+            android:layout_height="@dimen/dp_199"
+            android:layout_below="@id/rl_id_back"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_16">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/im_identity_front" />
+
+            <LinearLayout
+                android:id="@+id/ll_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_70"
+                android:layout_marginTop="@dimen/dp_137"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/issuingAuthority"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:text="@{idCard.idIssuingAuthority}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="焰灵姬" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_sign"
+                android:layout_marginStart="@dimen/dp_70"
+                android:layout_marginTop="@dimen/dp_8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/effectiveDate"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:text="@{idCard.idEffectiveDate}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="2010.06.10-2020.06.10" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

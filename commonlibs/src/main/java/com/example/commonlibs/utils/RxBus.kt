@@ -4,7 +4,7 @@ package com.example.commonlibs.utils
 import com.jakewharton.rxrelay2.PublishRelay
 import com.jakewharton.rxrelay2.Relay
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -81,9 +81,9 @@ class RxBus private constructor() {
      *
      * @param disposable
      */
-    fun rxBusUnbind(disposable: CompositeDisposable?) {
+    fun rxBusUnbind(disposable: Disposable?) {
         if (null != disposable && !disposable.isDisposed) {
-            disposable.clear()
+            disposable.dispose()
         }
     }
 
@@ -114,7 +114,13 @@ class RxBus private constructor() {
             return if (`object` == null) {
                 observable
             } else {
-                observable.mergeWith(Observable.create { emitter -> emitter.onNext(eventType.cast(`object`)!!) })
+                observable.mergeWith(Observable.create { emitter ->
+                    emitter.onNext(
+                        eventType.cast(
+                            `object`
+                        )!!
+                    )
+                })
             }
         }
     }

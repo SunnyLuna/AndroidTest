@@ -34,10 +34,12 @@ public class DateUtils {
      *
      * @return
      */
+
     public static int getMonth() {
         Calendar cd = Calendar.getInstance();
         return cd.get(Calendar.MONTH) + 1;
     }
+
 
     public static String getLastMonth() {
 

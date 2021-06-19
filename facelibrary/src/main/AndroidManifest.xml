@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.decard.facelibrary">
+    <!--    虹软算法权限-->
+    <!--    获取设备唯一标识，用于SDK激活授权-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--    允许应用联网，用于SDK联网激活授权-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--    允许应用读取本地文件，用于SDK离线激活授权-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
+</manifest>

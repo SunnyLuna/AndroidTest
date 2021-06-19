@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation rootProject.ext.kotlin_stdlib
+    implementation rootProject.ext.core_ktx
+    implementation rootProject.ext.dependencies.appCompat
+    implementation rootProject.ext.dependencies.constraintlayout
+    testImplementation rootProject.ext.dependencies.junit
+    androidTestImplementation rootProject.ext.dependencies.testEspressoCore
+
+
+    implementation rootProject.ext.dependencies.roomRuntime
+    kapt rootProject.ext.dependencies.roomCompiler
+    testImplementation rootProject.ext.dependencies.roomTest
+    implementation rootProject.ext.dependencies.roomRxjava2
+    implementation rootProject.ext.dependencies.roomKtx
+    implementation rootProject.ext.dependencies.rxjava
+    implementation rootProject.ext.dependencies.rxAndroid
+    implementation rootProject.ext.dependencies.rxpermission
+    implementation rootProject.ext.dependencies.gson
+
+
+}

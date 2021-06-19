@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorTextOne">#0C121B</color>
+    <color name="colorShape">#CFD7DC</color>
+    <color name="colorBackground">#F8FAFB</color>
+    <color name="colorGray">#BDCFE2</color>
+    <color name="colorLine">#E3E7EA</color>
+    <color name="colorVS">#B0B9C0</color>
+    <color name="color_compare">#021019</color>
+    <color name="colorSimilar">#6B6E74</color>
+    <color name="colorCompare">#181B1C</color>
+    <color name="color_money">#08151C</color>
+    <color name="colorGrayPay">#333333</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWX">#2AAE67</color>
+    <color name="colorALI">#2F6FFF</color>
+    <color name="colorCloud">#ED171F</color>
+
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

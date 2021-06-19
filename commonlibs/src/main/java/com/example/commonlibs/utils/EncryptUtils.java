@@ -28,7 +28,7 @@ public class EncryptUtils {
             -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
             45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1};
 
-    private static final String Algorithm = "DESede/ECB/NoPadding";
+    private static final String Algorithm = "DES/ECB/NoPadding";
 
     private static final String DES = "DES/ECB/NoPadding";
 
@@ -240,7 +240,7 @@ public class EncryptUtils {
      * @param src2
      * @return
      */
-    private static byte[] bytesXOR(byte[] src1, byte[] src2) {
+    public static byte[] bytesXOR(byte[] src1, byte[] src2) {
         int length = src1.length;
         if (length != src2.length) {
             return null;

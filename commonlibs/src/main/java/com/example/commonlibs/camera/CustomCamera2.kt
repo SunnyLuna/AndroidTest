@@ -17,6 +17,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 /**
@@ -38,6 +39,7 @@ class CustomCamera2 : CameraUtils() {
 
     private var textureView: TextureView? = null
     private var mContext: Context? = null
+
     /**
      * An additional thread for running tasks that shouldn't block the UI.
      */
@@ -54,6 +56,9 @@ class CustomCamera2 : CameraUtils() {
     private val MAX_PREVIEW_WIDTH = 1920
     private val MAX_PREVIEW_HEIGHT = 1080
     private var mdatas: ByteArray? = null
+
+    private var mWidth = 0
+    private var mHeight = 0
 
     companion object {
 
@@ -82,6 +87,8 @@ class CustomCamera2 : CameraUtils() {
         startBackgroundThread()
         this.mContext = context
         textureView = tv
+        //判断TextureView是否存在
+        Log.d(TAG, "startCamera: ${tv.isAvailable}")
         if (tv.isAvailable) {
             openCamera(textureView!!.width, textureView!!.height)
         } else {
@@ -95,12 +102,14 @@ class CustomCamera2 : CameraUtils() {
      */
     @SuppressLint("MissingPermission")
     private fun openCamera(width: Int, height: Int) {
+        //CameraManager 是一个负责查询和建立相机连接的系统服务
         val manager = mContext!!.getSystemService(Context.CAMERA_SERVICE) as CameraManager
         //设置摄像头特性
         setCameraCharacteristics(manager, width, height)
         try {
             manager.openCamera(mCameraId, stateCallback, backgroundHandler)
         } catch (e: CameraAccessException) {
+            Log.d(TAG, "openCamera: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -111,38 +120,56 @@ class CustomCamera2 : CameraUtils() {
      */
     private fun setCameraCharacteristics(manager: CameraManager, width: Int, height: Int) {
         try {
+
             // 获取指定摄像头的特性
             mCharacteristics = manager.getCameraCharacteristics(mCameraId)
+
             // 获取摄像头支持的配置属性
             val map = mCharacteristics.get(
-                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-            // 获取摄像头支持的最大尺寸
+                CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
+            )
+            // 获取摄像头支持的最大预览尺寸
             val largestPreview = Collections.max(
-                    Arrays.asList(*map!!.getOutputSizes(ImageFormat.YUV_420_888)), CompareSizesByArea())
+                Arrays.asList(*map!!.getOutputSizes(ImageFormat.YUV_420_888)), CompareSizesByArea()
+            )
+            Log.d(TAG, "获取摄像头支持的最大预览尺寸: ${largestPreview.width}  ${largestPreview.height}")
             // 创建一个ImageReader对象，用于获取摄像头的图像数据
-            mPreviewImageReader = ImageReader.newInstance(largestPreview.width, largestPreview.height,
-                    ImageFormat.YUV_420_888, 1)
+            mPreviewImageReader = ImageReader.newInstance(
+                largestPreview.width, largestPreview.height,
+                ImageFormat.YUV_420_888, 1
+            )
             //设置获取图片的监听
-            mPreviewImageReader!!.setOnImageAvailableListener(previewAvailableListener, backgroundHandler)
-
+            mPreviewImageReader!!.setOnImageAvailableListener(
+                previewAvailableListener,
+                backgroundHandler
+            )
+            // 获取摄像头支持的最大照片尺寸
             val largestPhoto = Collections.max(
-                    Arrays.asList(*map.getOutputSizes(ImageFormat.JPEG)), CompareSizesByArea())
+                Arrays.asList(*map.getOutputSizes(ImageFormat.JPEG)), CompareSizesByArea()
+            )
+            Log.d(TAG, "获取摄像头支持的最大照片尺寸: ${largestPreview.width}  ${largestPreview.height}")
             // 创建一个ImageReader对象，用于获取摄像头的图像数据
-            mPhotoImageReader = ImageReader.newInstance(largestPhoto.width, largestPhoto.height,
-                    ImageFormat.JPEG, 2)
+            mPhotoImageReader = ImageReader.newInstance(
+                largestPhoto.width, largestPhoto.height,
+                ImageFormat.JPEG, 2
+            )
             //设置获取图片的监听
-            mPhotoImageReader!!.setOnImageAvailableListener(previewAvailableListener, backgroundHandler)
+            mPhotoImageReader!!.setOnImageAvailableListener(
+                previewAvailableListener,
+                backgroundHandler
+            )
 
-            // Find out if we need to swap dimension to get the preview size relative to sensor
-            // coordinate.
+            // 找出是否需要交换尺寸以获取相对于传感器坐标的预览尺寸
             val displayRotation = (mContext!!
-                    .getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
+                .getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
 
             sensorOrientation = mCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)!!
             val swappedDimensions = areDimensionsSwapped(displayRotation)
-
+            Log.d(TAG, "是否需要交换尺寸:  $swappedDimensions")
             val displaySize = Point()
-            (mContext!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(displaySize)
+            (mContext!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(
+                displaySize
+            )
             val rotatedPreviewWidth = if (swappedDimensions) height else width
             val rotatedPreviewHeight = if (swappedDimensions) width else height
             var maxPreviewWidth = if (swappedDimensions) displaySize.y else displaySize.x
@@ -152,12 +179,16 @@ class CustomCamera2 : CameraUtils() {
             if (maxPreviewHeight > MAX_PREVIEW_HEIGHT) maxPreviewHeight = MAX_PREVIEW_HEIGHT
 
             // 获取最佳的预览尺寸
-            previewSize = chooseOptimalSize(map.getOutputSizes(
-                    SurfaceTexture::class.java),
-                    rotatedPreviewWidth, rotatedPreviewHeight,
-                    maxPreviewWidth, maxPreviewHeight, largestPhoto)
+            previewSize = chooseOptimalSize(
+                map.getOutputSizes(
+                    SurfaceTexture::class.java
+                ),
+                rotatedPreviewWidth, rotatedPreviewHeight,
+                maxPreviewWidth, maxPreviewHeight, largestPhoto
+            )
 
         } catch (e: CameraAccessException) {
+            Log.d(TAG, "setCameraCharacteristics: ${e.message}")
             e.printStackTrace()
         }
 
@@ -165,7 +196,7 @@ class CustomCamera2 : CameraUtils() {
 
     /**
      * Determines if the dimensions are swapped given the phone's current rotation.
-     *
+     *确定在给定手机当前旋转角度的情况下是否交换尺寸
      * @param displayRotation The current rotation of the display
      *
      * @return true if the dimensions are swapped, false otherwise.
@@ -200,12 +231,12 @@ class CustomCamera2 : CameraUtils() {
      * @return
      */
     private fun chooseOptimalSize(
-            choices: Array<Size>,
-            textureViewWidth: Int,
-            textureViewHeight: Int,
-            maxWidth: Int,
-            maxHeight: Int,
-            aspectRatio: Size
+        choices: Array<Size>,
+        textureViewWidth: Int,
+        textureViewHeight: Int,
+        maxWidth: Int,
+        maxHeight: Int,
+        aspectRatio: Size
     ): Size {
 
         // Collect the supported resolutions that are at least as big as the preview Surface
@@ -216,7 +247,8 @@ class CustomCamera2 : CameraUtils() {
         val h = aspectRatio.height
         for (option in choices) {
             if (option.width <= maxWidth && option.height <= maxHeight &&
-                    option.height == option.width * h / w) {
+                option.height == option.width * h / w
+            ) {
                 if (option.width >= textureViewWidth && option.height >= textureViewHeight) {
                     bigEnough.add(option)
                 } else {
@@ -227,15 +259,20 @@ class CustomCamera2 : CameraUtils() {
 
         // Pick the smallest of those big enough. If there is no one big enough, pick the
         // largest of those not big enough.
-        if (bigEnough.size > 0) {
-            return Collections.min(bigEnough, CompareSizesByArea())
-        } else if (notBigEnough.size > 0) {
-            return Collections.max(notBigEnough, CompareSizesByArea())
-        } else {
-            Log.e(TAG, "Couldn't find any suitable preview size")
-            return choices[0]
+        return when {
+            bigEnough.size > 0 -> {
+                Collections.min(bigEnough, CompareSizesByArea())
+            }
+            notBigEnough.size > 0 -> {
+                Collections.max(notBigEnough, CompareSizesByArea())
+            }
+            else -> {
+                Log.e(TAG, "Couldn't find any suitable preview size")
+                choices[0]
+            }
         }
     }
+
 
     // 为Size定义一个比较器Comparator
     internal class CompareSizesByArea : Comparator<Size> {
@@ -319,18 +356,25 @@ class CustomCamera2 : CameraUtils() {
                     matrix.setScale(-1f, 1f)
                 }
                 matrix.postRotate(90f)
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+                bitmap =
+                    Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
                 it.onNext(bitmap)
             }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
                 Log.d(TAG, Thread.currentThread().name)
                 mIPhotoInterface?.getBitmap(it)
             }
         } else {
-            val buffer = image.planes[0].buffer
-            val data = ByteArray(buffer.remaining())
-            buffer.get(data)
-            mdatas = data
+            val startTime = System.currentTimeMillis()
+            mWidth = image.width
+            mHeight = image.height
+            mdatas = ImageUtil.getDataFromImage(image, ImageUtil.COLOR_FormatNV21)
+            Log.d(TAG, ": 处理预览数据耗时：${System.currentTimeMillis() - startTime}")
             image.close()
+//            val buffer = image.planes[0].buffer
+//            val data = ByteArray(buffer.remaining())
+//            buffer.get(data)
+//            mdatas = data
+//            image.close()
         }
     }
 
@@ -340,39 +384,55 @@ class CustomCamera2 : CameraUtils() {
      */
     private fun takePreview() {
 
-        Log.d(TAG, "takePreview: " + previewSize!!.height)
         val surfaceTexture = textureView!!.surfaceTexture
+        Log.d(TAG, "takePreview: 预览分辨率 ${previewSize!!.width}   ${previewSize!!.height}")
         //设置TextureView的缓冲区大小
-        surfaceTexture.setDefaultBufferSize(previewSize!!.width, previewSize!!.height)
+        surfaceTexture!!.setDefaultBufferSize(4160, 3120)
         //获取Surface显示预览数据
         val mSurface = Surface(surfaceTexture)
         try {
             //创建预览请求
-            val mCaptureRequestBuilder = mCameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+            val mCaptureRequestBuilder =
+                mCameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
 
             //设置Surface作为预览数据的显示界面
             mCaptureRequestBuilder.addTarget(mSurface)
             mCaptureRequestBuilder.addTarget(mPreviewImageReader!!.surface)
-            //创建相机捕获会话，第一个参数是捕获数据的输出Surface列表，第二个参数是CameraCaptureSession的状态回调接口，当它创建好后会回调onConfigured方法，
+            //创建相机捕获会话，第一个参数是捕获数据的输出Surface列表，
+            // 第二个参数是CameraCaptureSession的状态回调接口，当它创建好后会回调onConfigured方法，
             // 第三个参数用来确定Callback在哪个线程执行，为null的话就在当前线程执行
-            mCameraDevice!!.createCaptureSession(Arrays.asList(mSurface, mPreviewImageReader!!.surface, mPhotoImageReader!!.surface), object : CameraCaptureSession.StateCallback() {
-                override fun onConfigured(session: CameraCaptureSession) {
-                    try {
-                        //开始预览
-                        mCameraCaptureSession = session
-                        // 设置自动对焦模式
-                        mCaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
-                        //设置反复捕获数据的请求，这样预览界面就会一直有数据显示
-                        mCameraCaptureSession?.setRepeatingRequest(mCaptureRequestBuilder.build(), mCaptureCallBack, backgroundHandler)
-                    } catch (e: CameraAccessException) {
-                        e.printStackTrace()
+            mCameraDevice!!.createCaptureSession(
+                Arrays.asList(
+                    mSurface,
+                    mPreviewImageReader!!.surface,
+                    mPhotoImageReader!!.surface
+                ), object : CameraCaptureSession.StateCallback() {
+                    override fun onConfigured(session: CameraCaptureSession) {
+                        try {
+                            //开始预览
+                            mCameraCaptureSession = session
+                            // 设置自动对焦模式
+                            mCaptureRequestBuilder.set(
+                                CaptureRequest.CONTROL_AF_MODE,
+                                CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+                            )
+                            //设置反复捕获数据的请求，这样预览界面就会一直有数据显示
+                            mCameraCaptureSession?.setRepeatingRequest(
+                                mCaptureRequestBuilder.build(),
+                                mCaptureCallBack,
+                                backgroundHandler
+                            )
+                        } catch (e: CameraAccessException) {
+                            Log.d(TAG, "onConfigured: CameraAccessException ${e.message}")
+                            e.printStackTrace()
+                        }
                     }
-                }
 
-                override fun onConfigureFailed(session: CameraCaptureSession) {
-                    Log.d("---------", "开启预览会话失败")
-                }
-            }, null)
+                    override fun onConfigureFailed(session: CameraCaptureSession) {
+                        Log.d(TAG, "开启预览会话失败")
+                    }
+                }, backgroundHandler
+            )
         } catch (e: CameraAccessException) {
             e.printStackTrace()
         }
@@ -381,19 +441,27 @@ class CustomCamera2 : CameraUtils() {
 
     private val mCaptureCallBack = object : CameraCaptureSession.CaptureCallback() {
 
-        override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
+        override fun onCaptureCompleted(
+            session: CameraCaptureSession,
+            request: CaptureRequest,
+            result: TotalCaptureResult
+        ) {
             super.onCaptureCompleted(session, request, result)
         }
 
-        override fun onCaptureFailed(session: CameraCaptureSession, request: CaptureRequest, failure: CaptureFailure) {
+        override fun onCaptureFailed(
+            session: CameraCaptureSession,
+            request: CaptureRequest,
+            failure: CaptureFailure
+        ) {
             super.onCaptureFailed(session, request, failure)
-            Log.d("---------", "开启预览失败")
+            Log.d(TAG, "开启预览失败")
         }
     }
 
 
-    override fun getPreviewDatas(): ByteArray {
-        return mdatas!!
+    override fun getPreviewDatas(): ByteArray? {
+        return mdatas
     }
 
     /**
@@ -406,9 +474,13 @@ class CustomCamera2 : CameraUtils() {
                 return
             }
             // 创建拍照请求
-            val captureRequestBuilder = mCameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
+            val captureRequestBuilder =
+                mCameraDevice!!.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
             // 设置自动对焦模式
-            captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+            captureRequestBuilder.set(
+                CaptureRequest.CONTROL_AF_MODE,
+                CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+            )
             // 将mImageReader的surface设为目标
             captureRequestBuilder.addTarget(mPhotoImageReader!!.surface)
             // 根据设备方向计算设置照片的方向
@@ -417,6 +489,7 @@ class CustomCamera2 : CameraUtils() {
             mCameraCaptureSession!!.capture(captureRequestBuilder.build(), null, null)
 
         } catch (e: CameraAccessException) {
+            Log.d(TAG, "takePhoto: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -424,7 +497,7 @@ class CustomCamera2 : CameraUtils() {
     private fun setCaptureOrientation(): Int? {
         // 获取设备方向
         val rotation = (mContext!!
-                .getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
+            .getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation
         val sensorOrientation = mCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)
         var deviceOrientation = ORIENTATIONS[rotation]
         if (mCharacteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
@@ -450,10 +523,35 @@ class CustomCamera2 : CameraUtils() {
         mPreviewImageReader = null
     }
 
+    override fun getBitmap(byteArray: ByteArray?): Bitmap? {
+        val startTime = System.currentTimeMillis()
+        val image = YuvImage(byteArray, ImageFormat.NV21, mWidth, mHeight, null)
+        val stream = ByteArrayOutputStream()
+        image.compressToJpeg(Rect(0, 0, mWidth, mHeight), 80, stream)
+        var bitmap = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size())
+        bitmap = rotate(bitmap, 90f)
+
+        Log.d(TAG, "getBitmap: ${System.currentTimeMillis() - startTime}")
+        return bitmap
+    }
+
+    //水平镜像翻转
+    private fun mirror(rawBitmap: Bitmap): Bitmap {
+        val matrix = Matrix()
+        matrix.postScale(-1f, 1f)
+        return Bitmap.createBitmap(rawBitmap, 0, 0, rawBitmap.width, rawBitmap.height, matrix, true)
+    }
+
+    //旋转
+    private fun rotate(rawBitmap: Bitmap, degree: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degree)
+        return Bitmap.createBitmap(rawBitmap, 0, 0, rawBitmap.width, rawBitmap.height, matrix, true)
+    }
 
     private fun startBackgroundThread() {
         backgroundThread = HandlerThread("CameraBackground").also { it.start() }
-        backgroundHandler = Handler(backgroundThread?.looper)
+        backgroundHandler = Handler(backgroundThread?.looper!!)
     }
 
     /**

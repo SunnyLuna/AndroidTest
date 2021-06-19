@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="#000000" />
+
+    <LinearLayout style="@style/customPopWindow">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_circle"
+            android:layout_width="@dimen/dp_44"
+            android:layout_height="@dimen/dp_44"
+            android:layout_marginTop="@dimen/dp_46"
+            app:srcCompat="@drawable/drawable_load" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_34"
+            android:text="正在更新"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+</RelativeLayout>

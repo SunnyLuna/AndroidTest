@@ -1,0 +1,54 @@
+ext {
+    kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:1.4.32"
+    core_ktx = "androidx.core:core-ktx:1.3.2"
+
+    android = [
+            compileSdkVersion: 30,
+            buildToolVersion : "30.0.3",
+            minSdkVersion    : 21,
+            targetSdkVersion : 30,
+            versionCode      : 1,
+            versionName      : "1002",
+    ]
+
+    dependencies = [
+            appCompat          : "androidx.appcompat:appcompat:1.2.0",
+            constraintlayout   : 'androidx.constraintlayout:constraintlayout:2.0.4',
+            junit              : "junit:junit:4.13.2",
+            testEspressoCore   : "androidx.test.espresso:espresso-core:3.3.0",
+            dataBindingCompiler: 'com.android.databinding:compiler:3.0.0',
+            gson               : 'com.google.code.gson:gson:2.8.6',
+            retrofit           : 'com.squareup.retrofit2:retrofit:2.9.0',
+            retrofitGson       : 'com.squareup.retrofit2:converter-gson:2.9.0',
+            retrofitAdapter    : 'com.squareup.retrofit2:adapter-rxjava2:2.4.0',
+            retrofitScalars    : 'com.squareup.retrofit2:converter-scalars:2.4.0',
+            rxjava             : 'io.reactivex.rxjava2:rxjava:2.2.9',
+            rxAndroid          : 'io.reactivex.rxjava2:rxandroid:2.1.1',
+            okhttp3            : 'com.squareup.okhttp3:okhttp:4.9.0',
+            okHttp3Logging     : 'com.squareup.okhttp3:logging-interceptor:4.9.0',
+            rxRelay            : 'com.jakewharton.rxrelay2:rxrelay:2.0.0',
+            fragmentation      : 'me.yokeyword:fragmentationx:1.0.2',//me.yokeyword:fragmentation:1.3.6
+            lottie             : 'com.airbnb.android:lottie:3.0.1',//动画
+            recyclerview       : 'androidx.recyclerview:recyclerview:1.0.0',
+            recyclerviewHelper : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50',
+            mpAndroidChart     : 'com.github.PhilJay:MPAndroidChart:v3.1.0',
+            logger             : 'com.orhanobut:logger:2.2.0',
+            logback            : 'com.github.tony19:logback-android:2.0.0',
+            slf4j              : 'org.slf4j:slf4j-api:1.7.25',
+            rxpermission       : 'com.github.tbruyelle:rxpermissions:0.10.2',
+            glide              : 'com.github.bumptech.glide:glide:4.11.0',
+            bugly              : 'com.tencent.bugly:crashreport:latest.release',
+            buglyNative        : 'com.tencent.bugly:nativecrashreport:latest.release',
+            circleImage        : 'de.hdodenhof:circleimageview:3.0.1',
+            viewpager2         : "androidx.viewpager2:viewpager2:1.0.0-alpha02",
+            //room数据库
+            roomRuntime        : 'androidx.room:room-runtime:2.2.5',
+            roomCompiler       : 'androidx.room:room-compiler:2.2.5',
+            roomTest           : 'androidx.room:room-testing:2.2.5',
+            roomRxjava2        : 'androidx.room:room-rxjava2:2.2.5',
+            roomKtx            : 'androidx.room:room-ktx:2.2.5',
+            pickerView         : 'com.contrarywind:Android-PickerView:4.1.9',
+            lifecycleViewmodel : "androidx.lifecycle:lifecycle-viewmodel:2.2.0",
+    ]
+
+}

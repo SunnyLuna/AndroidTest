@@ -8,19 +8,24 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.14.1" />
-        <option name="gradleJvm" value="1.8 (2)" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/SerialPortLibs" />
             <option value="$PROJECT_DIR$/android-pdf-viewer" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/cardlibs" />
             <option value="$PROJECT_DIR$/commonlibs" />
+            <option value="$PROJECT_DIR$/dbLibs" />
+            <option value="$PROJECT_DIR$/facelibrary" />
             <option value="$PROJECT_DIR$/ftplibs" />
+            <option value="$PROJECT_DIR$/kotlinlibs" />
             <option value="$PROJECT_DIR$/mqttlibs" />
             <option value="$PROJECT_DIR$/otglibs" />
             <option value="$PROJECT_DIR$/pdfLibs" />
             <option value="$PROJECT_DIR$/printLibs" />
+            <option value="$PROJECT_DIR$/qrlibs" />
+            <option value="$PROJECT_DIR$/secondarylibs" />
             <option value="$PROJECT_DIR$/serverLibs" />
             <option value="$PROJECT_DIR$/signaturelibs" />
             <option value="$PROJECT_DIR$/socketlibs" />

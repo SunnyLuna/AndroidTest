@@ -1,6 +1,6 @@
 package com.example.commonlibs.camera
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
 import android.content.Context
 import android.graphics.*
 import android.hardware.Camera
@@ -17,7 +17,7 @@ import java.io.ByteArrayOutputStream
  */
 class CustomCamera1 : CameraUtils() {
 
-
+    private val TAG = "---CustomCamera1"
     private var mCamera: Camera? = null
     private lateinit var mContext: Context
     private var mDisplayOrientation = 0
@@ -48,9 +48,9 @@ class CustomCamera1 : CameraUtils() {
         textureView = tv
         if (tv.isAvailable) {
             openCamera()
-            Log.d("------------", "进来了")
+            Log.d(TAG, "进来了")
         } else {
-            Log.d("------------", "没进")
+            Log.d(TAG, "没进")
             tv.surfaceTextureListener = surfaceTextureListener
         }
     }
@@ -59,8 +59,12 @@ class CustomCamera1 : CameraUtils() {
      * 打开照相机
      */
     private fun openCamera() {
-        mCamera = Camera.open(mCameraId)
-        setParameters()
+        try {
+            mCamera = Camera.open(mCameraId)
+            setParameters()
+        } catch (e: Exception) {
+            Log.d(TAG, "openCamera: ${e.message}")
+        }
     }
 
     /**.
@@ -68,20 +72,50 @@ class CustomCamera1 : CameraUtils() {
      */
     private fun setParameters() {
         if (mCamera != null) {
+            Log.d(TAG, "setParameters: ")
             val params = mCamera!!.parameters//获取camera参数
             params.pictureFormat = PixelFormat.JPEG  //设置图片格式
             params.previewFormat = ImageFormat.NV21  //设置预览的图片格式
+            Log.d(TAG, "setParameters: ")
             //设置预览尺寸
-            val bestPreviewSize = getBestCameraResolution(ScreenUtils.widthPixels(mContext), ScreenUtils.heightPixels(mContext), params.supportedPreviewSizes)
-            mWidth = bestPreviewSize!!.width
-            mHeight = bestPreviewSize.height
+            try {
+                val bestPreviewSize = getBestCameraResolution(
+                    ScreenUtils.widthPixels(mContext),
+                    ScreenUtils.heightPixels(mContext),
+                    params.supportedPreviewSizes
+                )
+                mWidth = bestPreviewSize!!.width
+                mHeight = bestPreviewSize.height
+            } catch (e: Exception) {
+                Log.d(TAG, "setParameters: 获取最适合尺寸异常")
+                mWidth = 640
+                mHeight = 480
+            }
+            val supportedPictureSizes = params.supportedPictureSizes
+            for (size in supportedPictureSizes) {
+                Log.d(TAG, "supportedPictureSizes: ${size.width}  ${size.height}")
+            }
+            for (size in params.supportedPreviewSizes) {
+                Log.d(TAG, "supportedPreviewSizes: ${size.width}  ${size.height}")
+            }
+            Log.d(TAG, "setParameters: width: $mWidth  height: $mHeight")
             params.setPreviewSize(mWidth, mHeight)
-            params.set("preview-flip", "flip-v")
-            Log.d("------", params.flatten())
+//            params.set("preview-flip", "flip-v")
+            Log.d(TAG, params.flatten())
             //设置照片尺寸
-            val bestPictureSize = getBestCameraResolution(ScreenUtils.widthPixels(mContext), ScreenUtils.heightPixels(mContext), params.supportedPictureSizes)
-            params.setPictureSize(bestPictureSize!!.width, bestPictureSize.height)
+            try {
+                val bestPictureSize = getBestCameraResolution(
+                    ScreenUtils.widthPixels(mContext),
+                    ScreenUtils.heightPixels(mContext),
+                    params.supportedPictureSizes
+                )
+                params.setPictureSize(bestPictureSize!!.width, bestPictureSize.height)
+            } catch (e: Exception) {
+                params.setPictureSize(mWidth, mHeight)
+            }
             mCamera!!.parameters = params
+        } else {
+            Log.d(TAG, "setParameters: camera==null")
         }
         setCameraDisplayOrientation()
     }
@@ -95,7 +129,8 @@ class CustomCamera1 : CameraUtils() {
             mCamera!!.setPreviewTexture(textureView?.surfaceTexture)
             mCamera!!.startPreview()
             mCamera!!.setPreviewCallback { data, _ ->
-                this.mDatas = data
+//                this.mDatas = YUVUtils.NV21_mirror(data, mWidth, mHeight)
+                mDatas = data
             }
         }
     }
@@ -131,11 +166,14 @@ class CustomCamera1 : CameraUtils() {
     }
 
 
-    //设置预览旋转的角度
+    /**
+     *   设置预览旋转的角度
+     */
+
     private fun setCameraDisplayOrientation() {
         val info = Camera.CameraInfo()
-        Camera.getCameraInfo(0, info)
-        val rotation = (mContext as AppCompatActivity).windowManager.defaultDisplay.rotation
+        Camera.getCameraInfo(mCameraId, info)
+        val rotation = (mContext as Activity).windowManager.defaultDisplay.rotation
 
         var screenDegree = 0
         when (rotation) {
@@ -147,10 +185,13 @@ class CustomCamera1 : CameraUtils() {
 
         if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             mDisplayOrientation = (info.orientation + screenDegree) % 360
-            mDisplayOrientation = (360 - mDisplayOrientation) % 360          // compensate the mirror
+            mDisplayOrientation =
+                (360 - mDisplayOrientation) % 360          // compensate the mirror
         } else {
             mDisplayOrientation = (info.orientation - screenDegree + 360) % 360
         }
+        Log.d(TAG, "setCameraDisplayOrientation: $mDisplayOrientation")
+
         mCamera!!.setDisplayOrientation(mDisplayOrientation)
     }
 
@@ -158,7 +199,11 @@ class CustomCamera1 : CameraUtils() {
      * 获取最佳的尺寸大小
      * 宽高相等或最接近的尺寸
      */
-    private fun getBestCameraResolution(width: Int, height: Int, sizeList: List<Camera.Size>): Camera.Size? {
+    private fun getBestCameraResolution(
+        width: Int,
+        height: Int,
+        sizeList: List<Camera.Size>
+    ): Camera.Size? {
         var bestSize: Camera.Size? = null
         val targetRatio = (width.toDouble() / height)  //目标大小的宽高比
         var minDiff = targetRatio
@@ -183,7 +228,6 @@ class CustomCamera1 : CameraUtils() {
         override fun onAutoFocus(success: Boolean, camera: Camera?) {
             Log.d("------------", success.toString())
         }
-
     }
 
     fun getPreviewBitmap(): Bitmap {
@@ -197,8 +241,8 @@ class CustomCamera1 : CameraUtils() {
             rotate(bitmap, 90f)
     }
 
-    override fun getPreviewDatas(): ByteArray {
-        return mDatas!!
+    override fun getPreviewDatas(): ByteArray? {
+        return mDatas
     }
 
 
@@ -214,12 +258,21 @@ class CustomCamera1 : CameraUtils() {
                 matrix.postRotate(270f)
                 matrix.postScale(-1f, 1f)
             }
-            val bitmap = Bitmap.createBitmap(srcBitmap, 0, 0, srcBitmap.width, srcBitmap.height, matrix, true)
+            val bitmap = Bitmap.createBitmap(
+                srcBitmap,
+                0,
+                0,
+                srcBitmap.width,
+                srcBitmap.height,
+                matrix,
+                true
+            )
             iPhotoInterface.getBitmap(bitmap)
         })
     }
 
     override fun closeCamera() {
+        mDatas = null
         if (mCamera != null) {
             mCamera?.setPreviewCallback(null)
             mCamera!!.stopPreview()
@@ -227,6 +280,18 @@ class CustomCamera1 : CameraUtils() {
             mCamera = null
         }
     }
+
+    override fun getBitmap(byteArray: ByteArray?): Bitmap? {
+        val image = YuvImage(byteArray, ImageFormat.NV21, mWidth, mHeight, null)
+        val stream = ByteArrayOutputStream()
+        image.compressToJpeg(Rect(0, 0, mWidth, mHeight), 80, stream)
+        val bitmap = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, stream.size())
+        Log.i(TAG, "getBitmap: $mDisplayOrientation")
+        Log.i(TAG, "getBitmap: WIDTH$mWidth   HEIGHT$mHeight")
+
+        return rotate(bitmap, mDisplayOrientation.toFloat())
+    }
+
 
     /**
      * 切换摄像头
@@ -245,14 +310,14 @@ class CustomCamera1 : CameraUtils() {
     }
 
     //水平镜像翻转
-    fun mirror(rawBitmap: Bitmap): Bitmap {
+    private fun mirror(rawBitmap: Bitmap): Bitmap {
         val matrix = Matrix()
         matrix.postScale(-1f, 1f)
         return Bitmap.createBitmap(rawBitmap, 0, 0, rawBitmap.width, rawBitmap.height, matrix, true)
     }
 
     //旋转
-    fun rotate(rawBitmap: Bitmap, degree: Float): Bitmap {
+    private fun rotate(rawBitmap: Bitmap, degree: Float): Bitmap {
         val matrix = Matrix()
         matrix.postRotate(degree)
         return Bitmap.createBitmap(rawBitmap, 0, 0, rawBitmap.width, rawBitmap.height, matrix, true)

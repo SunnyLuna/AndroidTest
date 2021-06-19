@@ -3,17 +3,18 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "30.0.1"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
     }
 
     buildTypes {
@@ -37,20 +38,22 @@ repositories {
 }
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation rootProject.ext.kotlin_stdlib
+    implementation rootProject.ext.core_ktx
+    implementation rootProject.ext.dependencies.appCompat
+    implementation rootProject.ext.dependencies.constraintlayout
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    testImplementation rootProject.ext.dependencies.junit
+    androidTestImplementation rootProject.ext.dependencies.testEspressoCore
 
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation rootProject.ext.dependencies.rxjava
+    implementation rootProject.ext.dependencies.rxAndroid
+    implementation rootProject.ext.dependencies.rxpermission
+    implementation rootProject.ext.dependencies.retrofit
+    implementation rootProject.ext.dependencies.retrofitGson
+    implementation rootProject.ext.dependencies.retrofitAdapter
     implementation(name: 'printlib-debug', ext: 'aar')
+    implementation 'com.google.zxing:core:3.3.0'
 }

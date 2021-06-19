@@ -109,4 +109,26 @@ public final class ScreenUtils {
         }
         return smallestWidthDP;
     }
+
+    public static double getWidthDP(Context context){
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(dm);
+        int widthPixels = widthPixels(context);
+        float density = dm.density;
+        float widthDP = widthPixels / density;
+        return widthDP;
+    }
+
+    public static double getHeightDP(Context context){
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(dm);
+        int heightPixels = heightPixels(context);
+        float density = dm.density;
+        float heightDP = heightPixels / density;
+        return heightDP;
+    }
 }

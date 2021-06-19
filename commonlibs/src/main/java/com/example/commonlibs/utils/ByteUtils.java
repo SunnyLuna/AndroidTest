@@ -62,6 +62,8 @@ public class ByteUtils {
         return result;
     }
 
+
+
     /**
      * 单字节异或
      *
@@ -81,7 +83,7 @@ public class ByteUtils {
      * @param src2
      * @return
      */
-    private static byte[] bytesXOR(byte[] src1, byte[] src2) {
+    public static byte[] bytesXOR(byte[] src1, byte[] src2) {
         int length = src1.length;
         if (length != src2.length) {
             return null;

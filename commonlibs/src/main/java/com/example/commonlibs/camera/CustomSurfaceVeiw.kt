@@ -142,15 +142,15 @@ class CustomSurfaceVeiw {
 
 
     private val surfaceCallback = object : SurfaceHolder.Callback {
-        override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+        override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
             Log.d("----------", "surfaceChanged")
         }
 
-        override fun surfaceDestroyed(holder: SurfaceHolder?) {
+        override fun surfaceDestroyed(holder: SurfaceHolder) {
             Log.d("----------", "surfaceDestroyed")
         }
 
-        override fun surfaceCreated(holder: SurfaceHolder?) {
+        override fun surfaceCreated(holder: SurfaceHolder) {
             Log.d("----------", "surfaceCreated")
             startPreview(mSurfaceView)
         }

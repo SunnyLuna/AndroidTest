@@ -4,4 +4,17 @@
     <string name="trade_time">交易时间：</string>
     <string name="transaction_id">交易流水号：</string>
     <string name="constraint_name">传说中的约束布局</string>
+
+    <string name="str_second">秒</string>
+    <string name="name">姓 名</string>
+    <string name="gender">性别</string>
+    <string name="nation">民族</string>
+    <string name="born">出生</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="address">住址</string>
+    <string name="id_number">公民身份号码</string>
+    <string name="effectiveDate">有效期限</string>
+    <string name="issuingAuthority">签发机关</string>
 </resources>

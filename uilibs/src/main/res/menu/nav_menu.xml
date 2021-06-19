@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 用一个group来放item，checkableBehavior 设置为single表示一个组-->
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/zinv"
+              android:icon="@mipmap/zinv"
+              android:title="紫女"/>
+        <item android:icon="@mipmap/nongyu"
+              android:id="@+id/nongyu"
+              android:title="弄玉"/>
+        <item android:id="@+id/yanlingji"
+              android:icon="@mipmap/yanlingji"
+              android:title="焰灵姬"/>
+    </group>
+</menu>

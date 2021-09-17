@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.commonlibs.utils.DensityUtils
 import com.example.commonlibs.utils.ScreenUtils
+import kotlinx.android.synthetic.main.activity_test_view.*
 
 class TestViewActivity : AppCompatActivity() {
     private val TAG = "---TestViewActivity"
@@ -28,9 +29,9 @@ class TestViewActivity : AppCompatActivity() {
 
 
         Log.d(TAG, "onCreate: ${DensityUtils.dp2px(this,100f)}")
-//        customEvaluator.setSelectNum(4)
-//        customEvaluator.setOnSelectStarListener {
-//            tv_select.text = it.toString()
-//        }
+        customEvaluator.setSelectNum(4)
+        customEvaluator.setOnSelectStarListener {
+            tv_select.text = it.toString()
+        }
     }
 }

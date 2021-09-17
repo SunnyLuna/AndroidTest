@@ -10,21 +10,20 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.Design.NoActionBar"
         android:supportsRtl="true"
+        android:theme="@style/Theme.Design.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:replace="android:name">
-
-
-        <activity android:name=".md.MaterialDesignActivity">
+        <activity android:name=".recycler.TestRecyclerActivity">
 
         </activity>
+        <activity android:name=".md.MaterialDesignActivity"></activity>
         <activity android:name=".md.InfoDetailsActivity" />
-        <activity android:name=".TextColockActivity"/>
-        <activity android:name=".WebviewActivity"/>
+        <activity android:name=".TextColockActivity" />
+        <activity android:name=".WebviewActivity" />
         <activity android:name=".AnimActivity" />
         <activity android:name=".GestureActivity" />
-        <activity android:name=".TestViewActivity" >
+        <activity android:name=".TestViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,9 +36,7 @@
         <activity android:name=".DownloadProgressButtonActivity" />
         <activity android:name=".spinner.SpinnerActivity" />
         <activity android:name=".md.LunaStyleActivity" />
-        <activity android:name=".md.ConstraintLayoutActivity">
-
-        </activity>
+        <activity android:name=".md.ConstraintLayoutActivity"></activity>
     </application>
 
 </manifest>

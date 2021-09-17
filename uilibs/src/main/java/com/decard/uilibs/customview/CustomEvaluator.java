@@ -36,6 +36,7 @@ public class CustomEvaluator extends View {
 	private int mHeight = 0;
 	private int mSelectColor;
 	private int mDefaultColor;
+	private int mStarInterval;
 	private OnSelectStarListener mOnSelectStarListener;
 
 	public CustomEvaluator(Context context) {
@@ -56,6 +57,7 @@ public class CustomEvaluator extends View {
 		TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomEvaluator,
 				defStyleAttr, defStyleRes);
 		mStarNum = typedArray.getInt(R.styleable.CustomEvaluator_starNum, 5);
+		mStarInterval = typedArray.getInt(R.styleable.CustomEvaluator_starInterval, 0);
 		mSelectNum = typedArray.getInt(R.styleable.CustomEvaluator_selectStar, 3);
 		mRadius = typedArray.getFloat(R.styleable.CustomEvaluator_radius, 0);
 		mSelectColor = typedArray.getColor(R.styleable.CustomEvaluator_selectColor, Color.RED);
@@ -79,7 +81,8 @@ public class CustomEvaluator extends View {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		mWidth = getMySize(DEFAULT_WIDTH, widthMeasureSpec);
-		mHeight = getMySize(mWidth / mStarNum, heightMeasureSpec);
+		mHeight = getMySize((mWidth - ((mStarNum - 1) * mStarInterval)) / mStarNum,
+				heightMeasureSpec);
 		setMeasuredDimension(mWidth, mHeight);
 		Log.d(TAG, "onMeasure: mWidth：" + mWidth + "   mHeight：" + mHeight);
 	}
@@ -119,10 +122,15 @@ public class CustomEvaluator extends View {
 		mPaint.setPathEffect(pathEffect);
 		for (int i = 0; i < mStarNum; i++) {
 			if (i < mSelectNum) {
-				drawStar(canvas, mWidth / mStarNum, i, mSelectColor);
+//				drawStar(canvas, (mWidth / mStarNum) - mStarInterval, i, mSelectColor);
+				drawStar(canvas, (mWidth - ((mStarNum - 1) * mStarInterval)) / mStarNum, i,
+						mSelectColor);
 			} else {
-				drawStar(canvas, mWidth / mStarNum, i, mDefaultColor);
+				drawStar(canvas, (mWidth - ((mStarNum - 1) * mStarInterval)) / mStarNum, i,
+						mDefaultColor);
 			}
+			canvas.save();
+			canvas.translate(mStarInterval, 0);
 		}
 	}
 

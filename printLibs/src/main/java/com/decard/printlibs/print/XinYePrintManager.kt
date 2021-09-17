@@ -12,6 +12,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.decard.printlibs.ZXingUtils
 import com.decard.printlibs.utils.HexUtils
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import net.posprinter.posprinterface.IMyBinder
 import net.posprinter.posprinterface.UiExecute
 import net.posprinter.service.PosprinterService
@@ -21,6 +24,7 @@ import net.posprinter.utils.DataForSendToPrinterPos80
 import net.posprinter.utils.DataForSendToPrinterTSC
 import net.posprinter.utils.PosPrinterDev
 import java.io.UnsupportedEncodingException
+import java.util.concurrent.TimeUnit
 
 /**
  * 打印模块管理类
@@ -40,6 +44,8 @@ object XinYePrintManager {
     var connectStatus = ""
     var printTextStatus = ""
     var printBarCodeStatus = ""
+
+    @Volatile
     var printPaperStatus = ""
     public val printConnectResult = MutableLiveData<String>()
 
@@ -107,6 +113,7 @@ object XinYePrintManager {
                 Log.d(TAG, "connectPrint   onsucess: ")
                 connectStatus = "success"
                 printConnectResult.postValue("connect")
+                dealPowerOff()
             }
         })
     }
@@ -520,8 +527,54 @@ object XinYePrintManager {
         }
     }
 
+    /**
+     * 保持不死
+     */
+    fun saveStatus() {
+
+        printTextStatus = ""
+        Log.d(TAG, "printSomething: ")
+        binder!!.writeDataByYouself(object : UiExecute {
+            override fun onfailed() {
+                Log.d(TAG, "printSomething  onfailed: ")
+                printTextStatus = "failed"
+            }
+
+            override fun onsucess() {
+                printTextStatus = "success"
+                Log.d(TAG, "printSomething  onsucess: ")
+            }
+        }) {
+            val list: MutableList<ByteArray> =
+                ArrayList()
+            //初始化打印机
+            list.add(DataForSendToPrinterPos80.initializePrinter())
+            //设置字体大小  0，1，48，49；0，48标准字体；1，49压缩字体
+            list.add(DataForSendToPrinterPos80.selectOrCancelChineseCharDoubleWH(1))
+            list
+        }
+    }
+
+
+    private var subscribe: Disposable? = null
+    fun dealPowerOff() {
+        if (subscribe != null && !subscribe!!.isDisposed) {
+            Log.d(TAG, "dealPowerOff: 重复订阅")
+            subscribe!!.dispose()
+        }
+        subscribe =
+            Observable.interval(50, TimeUnit.MINUTES).subscribeOn(Schedulers.io()).subscribe {
+                Log.d(TAG, "onCreate: 神农不死")
+                goPaper(1)
+            }
+    }
+
 
     fun closeService() {
+        if (subscribe != null && !subscribe!!.isDisposed) {
+            Log.d(TAG, "dealPowerOff: 重复订阅")
+            subscribe!!.dispose()
+        }
         if (binder != null && connectStatus != "") {
             binder!!.disconnectCurrentPort(object : UiExecute {
                 override fun onfailed() {

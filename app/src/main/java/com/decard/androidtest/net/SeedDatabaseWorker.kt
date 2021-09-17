@@ -31,7 +31,7 @@ class SeedDatabaseWorker(
 
     private val TAG = "---SeedDatabaseWorker"
     override suspend fun doWork(): Result = runBlocking {
-        val await = WebService.create().loadData().await()
+        val await = WebService.create().loadDataAsync().await()
         Log.d(TAG, "doWork   code: ${await.code}  msg: ${await.msg}")
         val tradeList = await.result.trade
         Log.d(TAG, "doWork: ${tradeList.size}")

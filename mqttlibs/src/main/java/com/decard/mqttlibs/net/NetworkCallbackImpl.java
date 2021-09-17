@@ -7,7 +7,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.util.Log;
 
-import com.decard.mqttlibs.MQTTApplication;
+import com.decard.mqttlibs.emqtt.MQTTApplication;
 
 /**
  * 监听网络

@@ -36,6 +36,7 @@ dependencies {
     implementation rootProject.ext.core_ktx
     implementation rootProject.ext.dependencies.appCompat
     implementation rootProject.ext.dependencies.constraintlayout
+    implementation 'com.google.android.material:material:1.2.1'
     testImplementation rootProject.ext.dependencies.junit
     androidTestImplementation rootProject.ext.dependencies.testEspressoCore
 
@@ -46,4 +47,7 @@ dependencies {
     implementation rootProject.ext.dependencies.rxjava
     implementation rootProject.ext.dependencies.rxAndroid
     implementation rootProject.ext.dependencies.gson
+
+    //active mq
+    implementation 'org.apache.activemq:activemq-client:5.14.5'
 }

@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
         mBinding =
             DataBindingUtil.setContentView(
                 this,
@@ -64,21 +63,10 @@ class MainActivity : AppCompatActivity() {
 //                }, {
 //                    Log.d(TAG, "testTime: " + it.message)
 //                })
-            WebService.create().test().subscribeOn(Schedulers.io()).subscribe {
-                Log.d(TAG, "testTime: " + it.toLong())
-            }
-            for (i in 0..20) {
-                Log.d(TAG, "testTime: ${i.toString()}")
-            }
         }
     }
 
     private fun downloadAV() {
-//        WebService.create().getPhoto("今年").subscribeOn(Schedulers.io()).subscribe({
-//            Log.d(TAG, "downloadAV: $it")
-//        }, {
-//            Log.d(TAG, "downloadAV: ${it.message}")
-//        })
 
         WebService.create().getPhoto("测试接口").subscribeOn(Schedulers.io())
             .flatMap(object : Function<TestBean, Observable<ResponseBody>> {
@@ -92,11 +80,6 @@ class MainActivity : AppCompatActivity() {
             }, {
                 Log.d(TAG, "downloadAV: ${it.message}")
             })
-//        WebService.createAV().getAV().subscribeOn(Schedulers.io()).subscribe({
-//            readAV(it)
-//        }, {
-//            Log.d(TAG, "downloadAV: ${it.message}")
-//        })
     }
 
     private fun readAV(it: ResponseBody) {

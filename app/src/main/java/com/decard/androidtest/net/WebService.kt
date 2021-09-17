@@ -6,17 +6,17 @@ import com.decard.androidtest.bean.TestBean
 import com.decard.androidtest.net.coroutine.CoroutineCallAdapterFactory
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
-import okhttp3.Cache
-import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.*
+import retrofit2.http.Headers
 import java.io.File
 import java.util.concurrent.TimeUnit
+
 
 /**
  * 网络操作类
@@ -30,13 +30,7 @@ import java.util.concurrent.TimeUnit
 interface WebService {
 
     @GET("/login")
-    fun loadData(): Deferred<BaseResponse<ResponseData>>
-
-    @GET("/login")
-    fun load(): Observable<BaseResponse<ResponseData>>
-
-    @GET("/test")
-    fun test(): Observable<Int>
+    fun loadDataAsync(): Deferred<BaseResponse<ResponseData>>
 
 
     @Headers("Content-Type: application/json", "Accept: application/json") //需要添加头
@@ -47,13 +41,42 @@ interface WebService {
     @GET("/test/intelligent/getAV")
     fun getAV(): Observable<ResponseBody>
 
+
+    @Multipart
+    @POST("/fileUpload")
+    fun uploadOneFile(
+        @Part part: MultipartBody.Part?
+    ): Observable<ResponseBody>
+
+    @Multipart
+    @POST("/multifileUpload")
+    fun uploadMulOne(@PartMap map: MutableMap<String, RequestBody>): Observable<ResponseBody>
+
+    @Multipart
+    @POST("/multifileUpload")
+    fun uploadMulTwo(@Part map: List<MultipartBody.Part?>): Observable<ResponseBody>
+
+    @Multipart
+    @POST("/multifileUpload")
+    fun uploadMulTwo(
+        @Part("md5") body: RequestBody,
+        @Part map: List<MultipartBody.Part?>
+    ): Observable<ResponseBody>
+
+
+    @Streaming
+    @GET("/download")
+    fun downloadMP4(): Observable<ResponseBody>
+
+    //下载文件
     @Streaming
     @GET
-    fun getPDF(@Url url: String): Observable<ResponseBody>
+    fun downloadFile(@Url url: String): Observable<ResponseBody>
+
 
     companion object {
-        //        private const val BASE_URL = "http:192.168.1.86:8080"
-        private const val BASE_URL = "http://192.168.5.158:8080/"
+        private const val BASE_URL = "http:192.168.1.139:8080"
+//        private const val BASE_URL = "http://192.168.5.158:8080/"
 
         fun create(): WebService {
             val logger =
@@ -71,7 +94,7 @@ interface WebService {
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .connectTimeout(15, TimeUnit.SECONDS)
-                .addNetworkInterceptor(Retry())
+//                .addNetworkInterceptor(Retry())
                 .build()
 
             return Retrofit.Builder()

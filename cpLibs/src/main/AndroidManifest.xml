@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.decard.cplibs">
+
+    <application>
+        <service
+            android:name=".ManagerService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="medicalService" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name=".ManagerContentProvider"
+            android:authorities="com.decard.testmanagerservice"
+            android:exported="true"/>
+    </application>
+</manifest>

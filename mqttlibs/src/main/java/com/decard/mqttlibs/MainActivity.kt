@@ -2,12 +2,10 @@ package com.decard.mqttlibs
 
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkRequest
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.decard.mqttlibs.net.NetworkCallbackImpl
+import com.decard.mqttlibs.emqtt.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 

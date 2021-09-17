@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.decard.uilibs.R
 import com.example.commonlibs.utils.ResourcesUtils
+import kotlinx.android.synthetic.main.layout_card_item.view.*
 import kotlinx.android.synthetic.main.layout_item.view.*
 import kotlinx.android.synthetic.main.layout_refresh_footer.view.*
 
@@ -107,7 +108,7 @@ public class MaterialAdapter(var context: Context, var list: ArrayList<DataBean>
     ): RecyclerView.ViewHolder {
         return if (viewType == TYPE_ITEM) {
             MyViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.layout_item, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.layout_card_item, parent, false)
             )
         } else {
             MyFootViewHolder(

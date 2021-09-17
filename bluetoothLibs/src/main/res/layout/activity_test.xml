@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="扫描到的设备" />
+
+    <EditText
+        android:id="@+id/et_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="要发送的数据" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送" />
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="连接设备" />
+
+    <EditText
+        android:id="@+id/et_receive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="接收到的数据" />
+
+</LinearLayout>

@@ -25,6 +25,7 @@ object DeShiPrintManager {
     var connectStatus = ""
     public val printConnectResult = MutableLiveData<String>()
     private val df = DecimalFormat("0.00")
+
     /**
      * 初始化打印机
      * 扫描设备---》连接设备
@@ -211,6 +212,7 @@ object DeShiPrintManager {
             Log.d(TAG, "printPayInfo: 请连接打印机")
         }
     }
+
     /**
      * 打印日缴费信息
      */
@@ -276,5 +278,10 @@ object DeShiPrintManager {
         }
     }
 
+
+    fun close() {
+        if (pipe != null)
+            pipe!!.close()
+    }
 
 }

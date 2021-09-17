@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.decard.mqttlibs.MQTTApplication;
+import com.decard.mqttlibs.emqtt.MQTTApplication;
 
 /**
  * 监听网络改变的广播

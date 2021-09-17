@@ -22,6 +22,7 @@
 
     <declare-styleable name="CustomEvaluator">
         <attr name="starNum" format="integer" />
+        <attr name="starInterval" format="integer" />
         <attr name="selectStar" format="integer" />
         <attr name="radius" format="float" />
         <attr name="selectColor" format="color" />

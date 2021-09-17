@@ -9,7 +9,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.decard.mqttlibs.MQTTApplication
+import com.decard.mqttlibs.emqtt.MQTTApplication
 import java.io.IOException
 
 

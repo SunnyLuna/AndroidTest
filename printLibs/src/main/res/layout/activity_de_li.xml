@@ -6,19 +6,21 @@
     android:orientation="vertical"
     tools:context=".PrintActivity">
 
-    <Button
-        android:id="@+id/btn_scan"
+    <EditText
+        android:id="@+id/et_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="扫描设备" />
+        android:hint="设置时间"
+        android:inputType="number" />
 
-    <Button
-        android:id="@+id/btn_connect"
+    <EditText
+        android:id="@+id/et_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="连接设备" />
+        android:hint="设置次数"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/btn_print"
@@ -26,4 +28,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="打印支付凭证" />
+
+    <Button
+        android:id="@+id/btn_go_paper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="走纸" />
+
+    <TextView
+        android:id="@+id/tv_times"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#F80C0C"
+        android:textSize="20sp" />
 </LinearLayout>

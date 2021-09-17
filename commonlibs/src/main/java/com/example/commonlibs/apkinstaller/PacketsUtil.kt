@@ -14,6 +14,8 @@ import java.io.File
  * created at 2019/8/9 14:47
  */
 object PacketsUtil {
+
+
     fun getAllApk(context: Context): ArrayList<AppBean> {
         val appBeanList = ArrayList<AppBean>()
         var bean: AppBean?

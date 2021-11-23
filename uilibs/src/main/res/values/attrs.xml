@@ -28,4 +28,13 @@
         <attr name="selectColor" format="color" />
         <attr name="defaultColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="MyRing">
+        <attr name="ringColor" format="color" />
+        <attr name="startColor" format="color" />
+        <attr name="endColor" format="color" />
+        <attr name="ringWidth" format="dimension" />
+        <attr name="isGradient" format="boolean" />
+
+    </declare-styleable>
 </resources>

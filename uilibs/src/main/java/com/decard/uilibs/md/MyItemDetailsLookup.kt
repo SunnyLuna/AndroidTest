@@ -3,6 +3,7 @@ package com.decard.uilibs.md
 import android.view.MotionEvent
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
+import com.decard.uilibs.md.adapter.MaterialAdapter
 
 /**
  *

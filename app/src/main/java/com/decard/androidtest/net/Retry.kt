@@ -17,11 +17,11 @@ public class Retry : Interceptor {
         Log.d(TAG, "intercept: ")
         val request = chain.request()
         var response = chain.proceed(request)
-        Log.d(TAG, "response.body: " + response)
+        Log.d(TAG, "response.body: $response")
         Log.d(TAG, "intercept: ${response.isSuccessful}")
         while (!response.isSuccessful && retryNum < maxRetry) {
             retryNum++
-            Log.i(TAG, "num:" + retryNum)
+            Log.i(TAG, "num:$retryNum")
             response = chain.proceed(request)
         }
         return response

@@ -1,4 +1,4 @@
-package com.decard.lib.qrcode;
+    package com.decard.lib.qrcode;
 
 import android.content.Context;
 import android.util.Log;

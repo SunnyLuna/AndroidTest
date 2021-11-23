@@ -1,4 +1,4 @@
-package com.decard.uilibs.md
+package com.decard.uilibs.md.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

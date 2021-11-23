@@ -4,13 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AnimActivity">
+    android:orientation="vertical"
+    tools:context=".customview.AnimActivity">
 
-    <ImageView
-        android:id="@+id/iv_transaction"
-        android:layout_width="@dimen/dp_200"
+    <!--    <ImageView-->
+    <!--        android:id="@+id/iv_transaction"-->
+    <!--        android:layout_width="@dimen/dp_200"-->
+    <!--        android:layout_height="@dimen/dp_300"-->
+    <!--        android:layout_margin="@dimen/dp_20"-->
+    <!--        android:src="@drawable/y" />-->
+
+
+    <!--        <ImageView-->
+    <!--            android:layout_width="@dimen/dp_200"-->
+    <!--            android:layout_height="@dimen/dp_200"-->
+    <!--            android:src="@drawable/circle_default" />-->
+
+    <!--    <ProgressBar-->
+    <!--        android:layout_width="@dimen/dp_322"-->
+    <!--        android:layout_height="@dimen/dp_322"-->
+    <!--        android:indeterminateTintMode="src_atop"-->
+    <!--        android:indeterminateTint="#008BFF" />-->
+
+    <com.decard.uilibs.customview.CustomRing
+        android:id="@+id/myRing"
+        android:layout_width="@dimen/dp_300"
         android:layout_height="@dimen/dp_300"
-        android:layout_margin="@dimen/dp_20"
-        android:src="@drawable/y"/>
+        android:background="@drawable/pb_pd_sp_blog"
+        app:endColor="@color/colorAccent"
+        app:ringWidth="@dimen/dp_10"
+        app:startColor="@color/colorBlack" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_gradient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始渐变" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="停止渐变" />
+
 
 </LinearLayout>

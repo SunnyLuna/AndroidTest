@@ -1,4 +1,4 @@
-package com.decard.uilibs.md
+package com.decard.uilibs.md.activity
 
 import RetrofitUtil
 import android.os.Bundle
@@ -10,6 +10,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.decard.uilibs.R
+import com.decard.uilibs.md.InfoBean
+import com.decard.uilibs.md.UrlImageGetter
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,11 +25,8 @@ class InfoDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_details)
         setSupportActionBar(info_toolbar)
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-        }
-        tv_info.setMovementMethod(LinkMovementMethod.getInstance())
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        tv_info.movementMethod = LinkMovementMethod.getInstance()
         val intent = intent
         val id = intent.getStringExtra("id")
         Log.d("-------------", id!!)
@@ -46,14 +45,20 @@ class InfoDetailsActivity : AppCompatActivity() {
                     Log.d("-------------", infoBean.toString())
 
 
-                    Glide.with(this@InfoDetailsActivity).load(infoBean.image).placeholder(R.mipmap.yanlingji).into(img_activity_info)
+                    Glide.with(this@InfoDetailsActivity).load(infoBean.image)
+                        .placeholder(R.mipmap.yanlingji).into(img_activity_info)
                     title_activity_info.text = infoBean.title
                     Observable.create<Spanned> {
-                        var fromHtml = Html.fromHtml(infoBean.body, UrlImageGetter(this@InfoDetailsActivity), null)
+                        var fromHtml = Html.fromHtml(
+                            infoBean.body,
+                            UrlImageGetter(this@InfoDetailsActivity),
+                            null
+                        )
                         it.onNext(fromHtml)
-                    }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
-                        tv_info.text = it
-                    }
+                    }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            tv_info.text = it
+                        }
                 }
 
                 override fun onError(e: Throwable) {

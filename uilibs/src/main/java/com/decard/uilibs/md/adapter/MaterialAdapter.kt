@@ -1,4 +1,4 @@
-package com.decard.uilibs.md
+package com.decard.uilibs.md.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.decard.uilibs.R
+import com.decard.uilibs.md.DataBean
 import com.example.commonlibs.utils.ResourcesUtils
 import kotlinx.android.synthetic.main.layout_card_item.view.*
-import kotlinx.android.synthetic.main.layout_item.view.*
 import kotlinx.android.synthetic.main.layout_refresh_footer.view.*
 
 

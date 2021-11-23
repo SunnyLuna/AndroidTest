@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.decard.androidtest.R
+import com.example.commonlibs.utils.StatusBarUtil
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -21,6 +22,7 @@ class NetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_net)
+        StatusBarUtil.StatusBarLightMode(this)
 
         val btnUpload = findViewById<Button>(R.id.btn_upload)
         val btnUploads = findViewById<Button>(R.id.btn_uploads)
@@ -62,6 +64,7 @@ class NetActivity : AppCompatActivity() {
             .subscribe({ responseBody ->
                 val total = responseBody.contentLength()
                 Log.d(TAG, "下载文件大小: ${total}")
+                Log.d(TAG, "download: ${responseBody.contentType().toString()}")
                 val filename = "TODAY.mp4"
                 val destinationFile =
                     File(Environment.getExternalStorageDirectory().absolutePath + File.separator + "TODAY.mp4")
@@ -77,12 +80,12 @@ class NetActivity : AppCompatActivity() {
                         byteread = it
                     } != -1) {
                     byteSum += byteread //字节数 文件大小
-                    //                        if (System.currentTimeMillis() - startTime > 500) {
-                    //                            startTime = System.currentTimeMillis()
-                    //                        }
-                    val progress = byteSum * 1f / total * 100
-                    Log.d(TAG, "onCreate: $byteSum")
-                    Log.d(TAG, "下载进度: $progress")
+                    if (System.currentTimeMillis() - startTime > 1000) {
+                        startTime = System.currentTimeMillis()
+                        val progress = byteSum * 1f / total * 100
+                        Log.d(TAG, "onCreate: $byteSum")
+                        Log.d(TAG, "下载进度: $progress")
+                    }
                     fs.write(buffer, 0, byteread)
                 }
                 fs.flush()

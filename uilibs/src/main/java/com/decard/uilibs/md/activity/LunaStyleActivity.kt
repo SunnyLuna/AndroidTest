@@ -1,4 +1,4 @@
-package com.decard.uilibs.md
+package com.decard.uilibs.md.activity
 
 import android.os.Bundle
 import android.widget.ArrayAdapter

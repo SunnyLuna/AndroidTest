@@ -1,7 +1,8 @@
-package com.decard.uilibs.md
+package com.decard.uilibs.md.activity
 
 import RetrofitUtil
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -15,6 +16,10 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
 import com.decard.uilibs.R
+import com.decard.uilibs.md.DataBean
+import com.decard.uilibs.md.EndlessRecyclerOnScrollListener
+import com.decard.uilibs.md.MyItemDetailsLookup
+import com.decard.uilibs.md.adapter.MaterialAdapter
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -150,6 +155,24 @@ class MaterialDesignActivity : AppCompatActivity() {
                     .build()
                 adapter!!.setSelectionTracker(mSelectionTracker)
             }
+    }
+
+    /**
+     * 沉浸式
+     * @param hasFocus Boolean
+     */
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            val decorView = window.decorView
+            decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

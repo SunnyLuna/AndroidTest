@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".md.LunaStyleActivity">
+    tools:context=".md.activity.LunaStyleActivity">
 
     <com.decard.uilibs.widgets.CircleTest
         android:id="@+id/tv_style"

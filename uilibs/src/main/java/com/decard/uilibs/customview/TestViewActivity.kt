@@ -1,8 +1,9 @@
-package com.decard.uilibs
+package com.decard.uilibs.customview
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.decard.uilibs.R
 import com.example.commonlibs.utils.DensityUtils
 import com.example.commonlibs.utils.ScreenUtils
 import kotlinx.android.synthetic.main.activity_test_view.*

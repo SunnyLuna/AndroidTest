@@ -45,7 +45,7 @@ object DownloadRepository {
                     } != -1) {
                     byteSum += byteread //字节数 文件大小
                     val progress = byteSum * 1f / total * 100
-                    if (System.currentTimeMillis() - startTime > 100) {
+                    if (System.currentTimeMillis() - startTime > 1000) {
                         startTime = System.currentTimeMillis()
                         logger.debug("downloadFile: $byteSum")
                         logger.debug("下载进度: $progress")

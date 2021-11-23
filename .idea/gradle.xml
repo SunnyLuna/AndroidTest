@@ -11,11 +11,15 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/android-pdf-viewer" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/cardlibs" />
             <option value="$PROJECT_DIR$/commonlibs" />
             <option value="$PROJECT_DIR$/facelibrary" />
+            <option value="$PROJECT_DIR$/kotlinlibs" />
+            <option value="$PROJECT_DIR$/pdfLibs" />
             <option value="$PROJECT_DIR$/signaturelibs" />
+            <option value="$PROJECT_DIR$/uilibs" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

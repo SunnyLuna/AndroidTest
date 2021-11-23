@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".TestViewActivity">
+    tools:context=".customview.TestViewActivity">
 
     <!--    <com.decard.uilibs.customview.CustomBall-->
     <!--        android:layout_width="wrap_content"-->

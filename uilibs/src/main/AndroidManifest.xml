@@ -11,32 +11,39 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.NoActionBar"
+        android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:name">
-        <activity android:name=".recycler.TestRecyclerActivity">
+        <activity android:name=".md.activity.BottomSheetsActivity">
 
         </activity>
-        <activity android:name=".md.MaterialDesignActivity"></activity>
-        <activity android:name=".md.InfoDetailsActivity" />
+        <activity android:name=".md.activity.TextInputLayoutActivity"></activity>
+        <activity android:name=".md.activity.SnackBarActivity"></activity>
+        <activity android:name=".md.activity.PaletteActivity" />
+        <activity android:name=".md.activity.NotificationActivity" />
+        <activity android:name=".recycler.TestRecyclerActivity" />
+        <activity android:name=".md.activity.MaterialDesignActivity">
+
+        </activity>
+        <activity android:name=".md.activity.InfoDetailsActivity" />
         <activity android:name=".TextColockActivity" />
         <activity android:name=".WebviewActivity" />
-        <activity android:name=".AnimActivity" />
-        <activity android:name=".GestureActivity" />
-        <activity android:name=".TestViewActivity">
+        <activity android:name=".customview.AnimActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GestureActivity" />
+        <activity android:name=".customview.TestViewActivity"></activity>
         <activity android:name=".PickerViewActivity" />
         <activity android:name=".password.PasswordActivity" />
         <activity android:name=".ThumbSeekBarActivity" />
         <activity android:name=".DownloadProgressButtonActivity" />
         <activity android:name=".spinner.SpinnerActivity" />
-        <activity android:name=".md.LunaStyleActivity" />
-        <activity android:name=".md.ConstraintLayoutActivity"></activity>
+        <activity android:name=".md.activity.LunaStyleActivity" />
+        <activity android:name=".md.activity.ConstraintLayoutActivity" />
     </application>
 
 </manifest>

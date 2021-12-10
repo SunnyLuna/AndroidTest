@@ -3,6 +3,8 @@ package com.decard.kotlinlibs
 import kotlinx.coroutines.*
 import org.junit.Test
 import kotlin.concurrent.thread
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * 协程基础
@@ -80,6 +82,7 @@ class CoroutineBasicTest {
     }
 
     //作用域构建器
+    @Test
     fun run4() = runBlocking { // this: CoroutineScope
         launch {
             delay(200L)
@@ -98,6 +101,33 @@ class CoroutineBasicTest {
 
         println("Coroutine scope is over") // 这一行在内嵌 launch 执行完毕后才输出
     }
+
+    @Test
+    fun RUN5() = runBlocking {
+        print("开始测试")
+        val string = getString()
+        print("最终结果$string")
+    }
+
+    suspend fun getString() = suspendCoroutine<String> {
+        setTest(object : TestC {
+            override fun test(string: String) {
+                print("我来了")
+                it.resume("你好")
+            }
+        })
+    }
+
+    fun setTest(test: TestC) = runBlocking {
+        delay(1000L)
+        test.test("Hello")
+    }
+
+
+    interface TestC {
+        fun test(string: String)
+    }
+
     private fun print(msg: String) {
         println(System.currentTimeMillis().toString() + ":  " + msg)
     }

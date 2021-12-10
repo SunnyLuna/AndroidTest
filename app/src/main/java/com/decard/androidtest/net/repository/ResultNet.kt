@@ -1,6 +1,6 @@
 package com.decard.androidtest.net.repository
 
-import com.decard.callnumbersystem.net.bean.NetErrorBean
+import com.decard.androidtest.net.bean.NetErrorBean
 
 
 /**

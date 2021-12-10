@@ -3,7 +3,11 @@ package com.decard.androidtest.net
 import android.os.Environment
 import com.decard.androidtest.bean.ResponseData
 import com.decard.androidtest.bean.TestBean
+import com.decard.androidtest.net.bean.BaseResponse
+import com.decard.androidtest.net.bean.response.SignInResponse
 import com.decard.androidtest.net.coroutine.CoroutineCallAdapterFactory
+import com.decard.androidtest.net.interceptor.RequestInterceptor
+import com.decard.androidtest.net.interceptor.Retry
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 import okhttp3.*
@@ -97,6 +101,15 @@ interface WebService {
     fun downloadFile(@Url url: String): Observable<ResponseBody>
 
 
+
+    //获取令牌
+    @FormUrlEncoded
+    @POST("arrange/http-sign_in.html")
+    fun signIn(
+        @FieldMap signInMap: Map<String, String>
+    ): Observable<BaseResponse<SignInResponse>>
+
+
     companion object {
         private const val BASE_URL = "http:192.168.1.139:8080"
 
@@ -171,6 +184,27 @@ interface WebService {
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(WebService::class.java)
+        }
+
+        fun createVerifyService(): WebService {
+            val logInterceptor = HttpLoggingInterceptor(HttpLogger())
+            logInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
+
+            val client = OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(RequestInterceptor())
+                .addInterceptor(logInterceptor)
+                .build()
+
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(WebService::class.java)

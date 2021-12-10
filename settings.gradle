@@ -20,3 +20,4 @@ include ':kotlinlibs'
 //include ':bluetoothLibs'
 rootProject.name = "AndroidTest"
 //include ':cpLibs'
+include ':netlibrary'

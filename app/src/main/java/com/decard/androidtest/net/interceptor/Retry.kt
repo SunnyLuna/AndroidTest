@@ -1,4 +1,4 @@
-package com.decard.androidtest.net
+package com.decard.androidtest.net.interceptor
 
 import android.util.Log
 import okhttp3.Interceptor

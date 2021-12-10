@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.decard.androidtest.R
+import com.decard.androidtest.net.bean.request.SignInRequest
 import com.example.commonlibs.utils.StatusBarUtil
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -19,6 +20,7 @@ import java.io.FileOutputStream
 
 class NetActivity : AppCompatActivity() {
     private val TAG = "---NetActivity"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_net)
@@ -29,22 +31,13 @@ class NetActivity : AppCompatActivity() {
         val btnDownload = findViewById<Button>(R.id.btn_download)
 
         btnUpload.setOnClickListener {
-            val filePath = Environment.getExternalStorageDirectory().path + "/barcode.jpg"
-            val file = File(filePath)
-            Log.d(TAG, "onCreate: fileName: ${file.name}")
-//            val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val requestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-            val part = MultipartBody.Part.createFormData(
-                "fileName",
-                file.name,
-                requestBody
-            )
-            WebService.create().uploadOneFile(part).subscribeOn(Schedulers.io())
-                .subscribe({
-                    Log.d(TAG, "onCreate:onNext $it")
-                }, {
-                    Log.d(TAG, "onCreate:throwable ${it.message}")
-                })
+//            uploadOnt()
+            val signInRequest = SignInRequest("ip123", "bar_000", "type111", "666")
+            WebService.createVerifyService().signIn(signInRequest.toMap())
+                .subscribeOn(Schedulers.io())
+                .subscribe {
+                    Log.d(TAG, "onCreate: $it")
+                }
         }
 
         btnUploads.setOnClickListener {
@@ -55,6 +48,25 @@ class NetActivity : AppCompatActivity() {
         btnDownload.setOnClickListener {
             download()
         }
+    }
+
+    private fun uploadOnt() {
+        val filePath = Environment.getExternalStorageDirectory().path + "/barcode.jpg"
+        val file = File(filePath)
+        Log.d(TAG, "onCreate: fileName: ${file.name}")
+        //            val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+        val requestBody = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+        val part = MultipartBody.Part.createFormData(
+            "fileName",
+            file.name,
+            requestBody
+        )
+        WebService.create().uploadOneFile(part).subscribeOn(Schedulers.io())
+            .subscribe({
+                Log.d(TAG, "onCreate:onNext $it")
+            }, {
+                Log.d(TAG, "onCreate:throwable ${it.message}")
+            })
     }
 
     private fun download() {

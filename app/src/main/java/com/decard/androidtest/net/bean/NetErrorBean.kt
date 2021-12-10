@@ -1,4 +1,4 @@
-package com.decard.callnumbersystem.net.bean
+package com.decard.androidtest.net.bean
 
 /**
  *

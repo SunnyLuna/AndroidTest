@@ -21,20 +21,20 @@ android {
     }
 
     //打包任务
-    task makeJar(type: org.gradle.api.tasks.bundling.Jar) {
-        delete "build/libs/dc_signature.jar"
-        //指定生成的jar名
-        baseName 'dc_signature'
-        //从哪里打包class文件
-        from('build/intermediates/javac/debug/classes/com/decard/signaturelibs/')
-        //打包到jar后的目录结构
-        into('/com/decard/signaturelibs/')
-        //去掉不需要打包的目录和文件
-        exclude('BuildConfig.class', 'R.class')
-        //
-        //去掉R$开头的文件
-        exclude { it.name.startsWith('R$') }
-    }
+//    task makeJar(type: org.gradle.api.tasks.bundling.Jar) {
+//        delete "build/libs/dc_signature.jar"
+//        //指定生成的jar名
+//        baseName 'dc_signature'
+//        //从哪里打包class文件
+//        from('build/intermediates/javac/debug/classes/com/decard/signaturelibs/')
+//        //打包到jar后的目录结构
+//        into('/com/decard/signaturelibs/')
+//        //去掉不需要打包的目录和文件
+//        exclude('BuildConfig.class', 'R.class')
+//        //
+//        //去掉R$开头的文件
+//        exclude { it.name.startsWith('R$') }
+//    }
 
 }
 repositories {
@@ -44,7 +44,7 @@ repositories {
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api fileTree(dir: 'aars', include: ['*.aar'])
+//    implementation fileTree(dir: 'aars', include: ['*.aar'])
 
     implementation rootProject.ext.kotlin_stdlib
     implementation rootProject.ext.core_ktx

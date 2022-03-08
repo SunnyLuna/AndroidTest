@@ -28,7 +28,7 @@ dependencies {
     implementation rootProject.ext.kotlin_stdlib
     implementation rootProject.ext.core_ktx
     implementation rootProject.ext.dependencies.appCompat
-    api files('libs/dc_mate_202104091157.jar')
     testImplementation rootProject.ext.dependencies.junit
     androidTestImplementation rootProject.ext.dependencies.testEspressoCore
+    api files('libs/dc_mate_202104091157.jar')
 }

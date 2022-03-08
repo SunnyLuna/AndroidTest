@@ -32,7 +32,7 @@ android {
     }
 }
 repositories {
-    flatDir {
+    flatD                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ir {
         dirs 'libs'
     }
 }

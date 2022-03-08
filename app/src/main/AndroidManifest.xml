@@ -21,21 +21,24 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:name">
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true"></service>
-
-        <activity android:name=".net.NetActivity">
+        <activity android:name=".glide.GlideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".XingYunActivity"></activity>
+
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".net.NetActivity">
+
+        </activity>
+        <activity android:name=".XingYunActivity" />
         <activity android:name=".ui.FaceActivity" />
-        <activity android:name=".ui.SignActivity" />
         <activity android:name=".ui.SocialCardActivity" />
         <activity android:name=".ui.IDCardActivity" />
         <activity android:name=".ui.MainActivity" />

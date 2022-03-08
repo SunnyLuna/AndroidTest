@@ -6,11 +6,13 @@ import com.decard.androidtest.bean.TestBean
 import com.decard.androidtest.net.bean.BaseResponse
 import com.decard.androidtest.net.bean.response.SignInResponse
 import com.decard.androidtest.net.coroutine.CoroutineCallAdapterFactory
+import com.decard.androidtest.net.factory.CallFactoryProxy
 import com.decard.androidtest.net.interceptor.RequestInterceptor
 import com.decard.androidtest.net.interceptor.Retry
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.LoggerFactory
 import retrofit2.Retrofit
@@ -101,13 +103,21 @@ interface WebService {
     fun downloadFile(@Url url: String): Observable<ResponseBody>
 
 
-
     //获取令牌
     @FormUrlEncoded
     @POST("arrange/http-sign_in.html")
     fun signIn(
         @FieldMap signInMap: Map<String, String>
     ): Observable<BaseResponse<SignInResponse>>
+
+    /*
+    *动态修改baseurl
+    */
+    @Headers("BaseUrlName:face")
+    @POST("faceLab/init")
+    @FormUrlEncoded
+    fun faceInit()
+            : Observable<String>
 
 
     companion object {
@@ -203,7 +213,17 @@ interface WebService {
 
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(client)
+                .callFactory(object : CallFactoryProxy(client) {
+                    override fun getNewUrl(baseUrlName: String, request: Request): HttpUrl? {
+                        logger.debug("getNewUrl: $baseUrlName")
+                        if (baseUrlName == "face") {
+                            val oldUrl = request.url.toString()
+                            val newUrl = oldUrl.replace(BASE_URL, "new$BASE_URL")
+                            return newUrl.toHttpUrl()
+                        }
+                        return null
+                    }
+                })
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()

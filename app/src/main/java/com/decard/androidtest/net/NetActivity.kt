@@ -1,12 +1,14 @@
 package com.decard.androidtest.net
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.decard.androidtest.R
-import com.decard.androidtest.net.bean.request.SignInRequest
+import com.decard.androidtest.ui.MainActivity
+import com.example.commonlibs.utils.SoundUtils
 import com.example.commonlibs.utils.StatusBarUtil
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -24,20 +26,27 @@ class NetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_net)
-        StatusBarUtil.StatusBarLightMode(this)
-
+        StatusBarUtil.transparentWhiteBar(this)
+        Log.d(TAG, "onCreate: ")
+        SoundUtils.getInstance().init(this)
         val btnUpload = findViewById<Button>(R.id.btn_upload)
         val btnUploads = findViewById<Button>(R.id.btn_uploads)
         val btnDownload = findViewById<Button>(R.id.btn_download)
 
         btnUpload.setOnClickListener {
 //            uploadOnt()
-            val signInRequest = SignInRequest("ip123", "bar_000", "type111", "666")
-            WebService.createVerifyService().signIn(signInRequest.toMap())
-                .subscribeOn(Schedulers.io())
-                .subscribe {
-                    Log.d(TAG, "onCreate: $it")
-                }
+//            val signInRequest = SignInRequest("ip123", "bar_000", "type111", "666")
+//            WebService.createVerifyService().signIn(signInRequest.toMap())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe {
+//                    Log.d(TAG, "onCreate: $it")
+//                }
+
+            startActivity(Intent(this, MainActivity::class.java))
+            overridePendingTransition(
+                R.anim.activity_finish_zoom_in,
+                R.anim.activity_finish_zoom_out
+            )
         }
 
         btnUploads.setOnClickListener {
@@ -176,6 +185,31 @@ class NetActivity : AppCompatActivity() {
             }, {
                 Log.d(TAG, "onCreate:throwable ${it.message}")
             })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: ")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: ")
     }
 
 

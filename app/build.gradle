@@ -14,7 +14,7 @@ android {
     }
     defaultConfig {
 //        if (isModule.toBoolean()) {
-        applicationId "com.decard.androidtest"
+        applicationId "com.decard.cplibs"
 //        }
         minSdkVersion 21
         targetSdkVersion 29
@@ -103,4 +103,6 @@ dependencies {
     implementation 'androidx.room:room-rxjava2:2.2.5'
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 }

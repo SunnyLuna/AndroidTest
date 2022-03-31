@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Time:2021/12/19
@@ -31,6 +33,7 @@ public class ReflectUtils {
 	}
 
 	public static void printClassInfo(Object object) {
+
 		//获取类的信息，首先获取类的类类型
 		Class c = object.getClass();
 		//获取类的名称

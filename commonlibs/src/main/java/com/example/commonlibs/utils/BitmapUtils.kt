@@ -221,6 +221,38 @@ object BitmapUtils {
         }
     }
 
+
+    /**
+     * 压缩bitmap至小于100kb
+     * @param bitmap Bitmap?
+     * @return Bitmap?
+     */
+    fun qualityCompressTo100(bitmap: Bitmap?): Bitmap? {
+        val bos = ByteArrayOutputStream()
+        try {
+            do {
+                bos.reset()
+                bitmap?.compress(Bitmap.CompressFormat.JPEG, 50, bos)
+            } while (bos.toByteArray().size / 1024 > 100)
+            val bytes = bos.toByteArray()
+            val compressBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+            bos.flush()
+            bos.close()
+            return compressBitmap
+        } catch (e: IOException) {
+            Log.d("---SystemCamera", e.message!!)
+            e.printStackTrace()
+            return null
+        } finally {
+            try {
+                bos.flush()
+                bos.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     /**
      * inSampleSize 采样率，默认和最小值为1，大于1时，值为2的幂（不为2的幂，解码器会取与该值最接近的2的幂
      * 通过改变分辨率来减小图片所占用的磁盘空间和内存空间大小，但是采样率只能设置2的n次方，可能图片的最优比例在中间
@@ -234,10 +266,10 @@ object BitmapUtils {
         val options = BitmapFactory.Options()
         //不获取图片，不加载到内存中，只返回图片属性
         options.inJustDecodeBounds = true
-        BitmapFactory.decodeResource(res, id)
+        BitmapFactory.decodeResource(res, id, options)
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight)
         options.inJustDecodeBounds = false
-        return BitmapFactory.decodeResource(res, id)
+        return BitmapFactory.decodeResource(res, id, options)
     }
 
     private fun calculateInSampleSize(

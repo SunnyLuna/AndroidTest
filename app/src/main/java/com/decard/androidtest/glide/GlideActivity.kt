@@ -14,13 +14,12 @@ import kotlinx.android.synthetic.main.activity_glide.*
 import org.slf4j.LoggerFactory
 import java.io.File
 
-class SGlideActivity : AppCompatActivity() {
+class GlideActivity : AppCompatActivity() {
 
     private val logger = LoggerFactory.getLogger("---GlideActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_glide)
-        RecyclerView
 
         val url =
             "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fclubimg.club.vmall.com%2Fdata%2Fattachment%2Fforum%2F202108%2F05%2F141257yjxlhxruhag4ercu.jpg&refer=http%3A%2F%2Fclubimg.club.vmall.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642155387&t=06715331f12ac4a8fce53bda000d74bf"
